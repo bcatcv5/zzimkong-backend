@@ -6,9 +6,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
-@Entity
+@Entity(name = "FurnitureUploadFile")
 @Getter
 @Table(name = "furniture_upload_file")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,7 +18,7 @@ public class UploadFile extends BaseEntity {
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_upload_file_user"), nullable = false)
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_furniture_upload_file_user"), nullable = false)
     private User user;
 
     @Column(name = "store_file_name", length = 255, nullable = false)
