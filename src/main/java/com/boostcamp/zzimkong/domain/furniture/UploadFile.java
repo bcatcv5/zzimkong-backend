@@ -1,4 +1,4 @@
-package com.boostcamp.zzimkong.domain.space;
+package com.boostcamp.zzimkong.domain.furniture;
 
 import com.boostcamp.zzimkong.domain.BaseEntity;
 import com.boostcamp.zzimkong.domain.User;
@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Id;
 
 @Entity
 @Getter
-@Table(name = "space_upload_file")
+@Table(name = "furniture_upload_file")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UploadFile extends BaseEntity {
 
