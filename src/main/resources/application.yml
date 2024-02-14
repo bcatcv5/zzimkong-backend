@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: local
+  jpa:
+    show_sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: ${SOURCE_MYSQL_URL}
+    username: ${SOURCE_MYSQL_USERNAME}
+    password: ${SOURCE_MYSQL_PASSWORD}
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: ${GCS_CREDENTIALS}
+        project-id: ${GCS_PROJECT_ID}
+        bucket: ${GCS_BUCKET}
+        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 2GB
+      max-request-size: 2GB
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+        resource:
+          transaction: DEBUG
+      springframework:
+        transaction:
+          interceptor: TRACE
+        orm:
+          jpa:
+            JpaTransactionManager: DEBUG
