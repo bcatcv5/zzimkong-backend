@@ -19,7 +19,6 @@ spring:
           location: ${GCS_CREDENTIALS}
         project-id: ${GCS_PROJECT_ID}
         bucket: ${GCS_BUCKET}
-        enabled: true
   servlet:
     multipart:
       max-file-size: 2GB
