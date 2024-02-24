@@ -19,3 +19,10 @@ CREATE TABLE furniture_upload_file
     `last_modified_date` DATETIME NOT NULL,
     PRIMARY KEY (`upload_id`)
 );
+
+CREATE TABLE users
+(
+    `user_id` BIGINT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`user_id`)
+);
