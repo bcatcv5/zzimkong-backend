@@ -21,19 +21,19 @@ public class UploadFile extends BaseEntity {
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_furniture_upload_file_user"), nullable = false)
     private User user;
 
-    @Column(name = "store_file_name", length = 255, nullable = false)
-    private String storeFileName;
+    @Column(name = "store_file_url", length = 255, nullable = false)
+    private String storeFileUrl;
 
     @Column(name = "upload_file_name", length = 255, nullable = false)
     private String uploadFileName;
 
     public UploadFile(
             User user,
-            String storeFileName,
+            String storeFileUrl,
             String uploadFileName
     ) {
         this.user = user;
-        this.storeFileName = storeFileName;
+        this.storeFileUrl = storeFileUrl;
         this.uploadFileName = uploadFileName;
     }
 }
