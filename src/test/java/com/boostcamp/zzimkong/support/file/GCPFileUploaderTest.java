@@ -31,9 +31,9 @@ class GCPFileUploaderTest {
 
         // then
         doThrow(new IllegalArgumentException()).when(fakeGcpFileUploader)
-                .uploadFile(emptyRawFileData);
+                .uploadVideo(emptyRawFileData);
 
-        assertThatThrownBy(() -> fakeGcpFileUploader.uploadFile(emptyRawFileData))
+        assertThatThrownBy(() -> fakeGcpFileUploader.uploadVideo(emptyRawFileData))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -59,10 +59,10 @@ class GCPFileUploaderTest {
 
         // when
         doThrow(new RuntimeException()).when(fakeGcpFileUploader)
-                .uploadFile(dummyData);
+                .uploadVideo(dummyData);
 
         // then
-        assertThatThrownBy(() -> fakeGcpFileUploader.uploadFile(dummyData))
+        assertThatThrownBy(() -> fakeGcpFileUploader.uploadVideo(dummyData))
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -88,11 +88,11 @@ class GCPFileUploaderTest {
         );
 
         // when
-        when(fakeGcpFileUploader.uploadFile(dummyData))
+        when(fakeGcpFileUploader.uploadVideo(dummyData))
                 .thenReturn(URL);
 
         // then
-        assertThat(fakeGcpFileUploader.uploadFile(dummyData))
+        assertThat(fakeGcpFileUploader.uploadVideo(dummyData))
                 .isEqualTo(URL);
     }
 }

@@ -1,21 +1,16 @@
 package com.boostcamp.zzimkong.service;
 
 import com.boostcamp.zzimkong.domain.User;
-import com.boostcamp.zzimkong.domain.space.UploadFile;
+import com.boostcamp.zzimkong.domain.space.SpaceUploadFile;
 import com.boostcamp.zzimkong.repository.SpaceRepository;
 import com.boostcamp.zzimkong.repository.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.*;
 
 @SpringBootTest
@@ -66,11 +61,11 @@ class FileServiceTest {
                 expectedStoreFileUrl
         ).getId();
 
-        UploadFile findUploadFile = spaceRepository.findById(saveFileId)
+        SpaceUploadFile findSpaceUploadFile = spaceRepository.findById(saveFileId)
                 .orElseThrow();
 
         // then
-        assertThat(findUploadFile).extracting("id", "storeFileUrl", "uploadFileName")
+        assertThat(findSpaceUploadFile).extracting("id", "storeFileUrl", "uploadFileName")
                 .containsExactly(saveFileId, expectedStoreFileUrl, expectedUploadFileName);
     }
 }

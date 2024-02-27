@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class UploadFileTest {
+class SpaceUploadFileTest {
     @Test
     @DisplayName("공간 업로드 파일을 생성한다.")
     void construct() {
@@ -13,7 +13,7 @@ class UploadFileTest {
         User dummyUser = new User("dummy");
 
         // then
-        Assertions.assertDoesNotThrow(() -> new UploadFile(
+        Assertions.assertDoesNotThrow(() -> new SpaceUploadFile(
                 dummyUser,
                 "storeFileName",
                 "uploadFileName"

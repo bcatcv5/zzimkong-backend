@@ -14,6 +14,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -36,18 +37,12 @@ public class GCPFileUploader {
         this.bucket = bucket;
     }
 
-    public String uploadFile(final RawFileData fileData) {
+    public String uploadVideo(final RawFileData fileData) {
         validateFileExists(fileData);
-        return sendFileToStorage(fileData);
+        return sendVideoToStorage(fileData);
     }
 
-    private void validateFileExists(final RawFileData file) {
-        if (file == null) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private String sendFileToStorage(final RawFileData fileData) {
+    private String sendVideoToStorage(final RawFileData fileData) {
         try (final InputStream inputStream = fileData.getContent()) {
             String fileName = fileData.getStoreFileName();
             byte[] fileBytes = inputStream.readAllBytes();
@@ -89,6 +84,38 @@ public class GCPFileUploader {
             for (CompletableFuture<byte[]> future : futures) {
                 writer.write(ByteBuffer.wrap(future.join()));
             }
+        }
+    }
+
+    public List<String> uploadImages(final List<RawFileData> rawFileDatas) {
+        return rawFileDatas.stream()
+                .map(this::uploadImage)
+                .collect(Collectors.toList());
+    }
+
+    private String uploadImage(final RawFileData fileData) {
+        validateFileExists(fileData);
+        return sendImageToStorage(fileData);
+    }
+
+    private String sendImageToStorage(final RawFileData fileData) {
+        try (final InputStream inputStream = fileData.getContent()) {
+            String fileName = fileData.getStoreFileName();
+
+            BlobInfo blobInfo = BlobInfo.newBuilder(bucket, fileName)
+                    .setContentType(fileData.getContentType())
+                    .build();
+
+            return storage.create(blobInfo, inputStream)
+                    .getMediaLink();
+        } catch (IOException e) {
+            throw new RuntimeException("파일 업로드에 실패했습니다.");
+        }
+    }
+
+    private void validateFileExists(final RawFileData file) {
+        if (file == null) {
+            throw new IllegalArgumentException();
         }
     }
 }
