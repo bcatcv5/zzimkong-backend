@@ -2,6 +2,7 @@ package com.boostcamp.zzimkong.service;
 
 import com.boostcamp.zzimkong.domain.User;
 import com.boostcamp.zzimkong.domain.space.SpaceUploadFile;
+import com.boostcamp.zzimkong.exception.NoSuchMemberException;
 import com.boostcamp.zzimkong.repository.SpaceRepository;
 import com.boostcamp.zzimkong.repository.UserRepository;
 import org.junit.jupiter.api.*;
@@ -43,7 +44,8 @@ class FileServiceTest {
 
         // then
         assertThatThrownBy(() -> fileService.save(unExistId, uploadFileName, storeFileUrl))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NoSuchMemberException.class)
+                .hasMessage("존재하지 않은 회원입니다. userId={%d}", unExistId);
     }
 
     @Test

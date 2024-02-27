@@ -1,6 +1,7 @@
 package com.boostcamp.zzimkong.support.file;
 
 import com.boostcamp.zzimkong.domain.file.RawFileData;
+import com.boostcamp.zzimkong.exception.UnExistFileException;
 import com.google.cloud.storage.Storage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,11 +31,11 @@ class GCPFileUploaderTest {
         RawFileData emptyRawFileData = null;
 
         // then
-        doThrow(new IllegalArgumentException()).when(fakeGcpFileUploader)
+        doThrow(new UnExistFileException()).when(fakeGcpFileUploader)
                 .uploadVideo(emptyRawFileData);
 
         assertThatThrownBy(() -> fakeGcpFileUploader.uploadVideo(emptyRawFileData))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(UnExistFileException.class);
     }
 
     @Test

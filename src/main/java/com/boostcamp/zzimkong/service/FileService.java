@@ -6,6 +6,7 @@ import com.boostcamp.zzimkong.domain.furniture.FurnitureModelResult;
 import com.boostcamp.zzimkong.domain.furniture.FurnitureUploadFile;
 import com.boostcamp.zzimkong.domain.space.SpaceModelResult;
 import com.boostcamp.zzimkong.domain.space.SpaceUploadFile;
+import com.boostcamp.zzimkong.exception.NoSuchMemberException;
 import com.boostcamp.zzimkong.repository.FurnitureRepository;
 import com.boostcamp.zzimkong.repository.SpaceRepository;
 import com.boostcamp.zzimkong.repository.UserRepository;
@@ -39,7 +40,7 @@ public class FileService {
 
     public VideoFileSaveResponse save(Long userId, String uploadFileName, String storeFileUrl) {
         User findUser = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException());
+                .orElseThrow(() -> new NoSuchMemberException(userId));
         SpaceUploadFile spaceUploadFile = new SpaceUploadFile(findUser, storeFileUrl, uploadFileName);
 
         spaceResultRepository.save(SpaceModelResult.from(findUser));
@@ -49,7 +50,7 @@ public class FileService {
 
     public ImageFileSaveResponses save(Long userId, List<RawFileData> rawFileDatas, List<String> imageUploadUrls) {
         User findUser = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException());
+                .orElseThrow(() -> new NoSuchMemberException(userId));
 
         List<FurnitureUploadFile> furnitureUploadFiles = IntStream.range(START, imageUploadUrls.size())
                 .mapToObj(idx -> new FurnitureUploadFile(

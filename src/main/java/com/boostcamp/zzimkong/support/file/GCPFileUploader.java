@@ -1,6 +1,7 @@
 package com.boostcamp.zzimkong.support.file;
 
 import com.boostcamp.zzimkong.domain.file.RawFileData;
+import com.boostcamp.zzimkong.exception.UnExistFileException;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -115,7 +116,7 @@ public class GCPFileUploader {
 
     private void validateFileExists(final RawFileData file) {
         if (file == null) {
-            throw new IllegalArgumentException();
+            throw new UnExistFileException();
         }
     }
 }

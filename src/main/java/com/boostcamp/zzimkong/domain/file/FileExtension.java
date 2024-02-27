@@ -1,5 +1,6 @@
 package com.boostcamp.zzimkong.domain.file;
 
+import com.boostcamp.zzimkong.exception.InvalidFileTypeException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +27,7 @@ public enum FileExtension {
         FileExtension findFileExtension = Arrays.stream(values())
                 .filter(extension -> extension.value.equals(fileExtension))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(fileExtension));
+                .orElseThrow(() -> new InvalidFileTypeException(fileExtension));
 
         return findFileExtension.getValue();
     }
