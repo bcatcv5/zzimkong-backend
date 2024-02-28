@@ -44,6 +44,9 @@ dependencies {
     // GCP
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
+
+    // Video
+    implementation 'com.drewnoakes:metadata-extractor:2.16.0'
 }
 
 tasks.named('test') {

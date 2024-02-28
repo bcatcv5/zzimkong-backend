@@ -1,7 +1,14 @@
 package com.boostcamp.zzimkong.support.file;
 
 import com.boostcamp.zzimkong.domain.file.RawFileData;
+import com.boostcamp.zzimkong.exception.InvalidDurationException;
 import com.boostcamp.zzimkong.exception.UnExistFileException;
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.MetadataException;
+import com.drew.metadata.mp4.Mp4Directory;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -25,6 +32,7 @@ public class GCPFileUploader {
 
     private final String bucket;
 
+    private static final int LIMIT_TIME = 400;
     private static final int CHUNK_SIZE = 1024 * 1024 * 200;
     private static final int START_IDX = 0;
     private static final int DEST_POS = 0;
@@ -40,6 +48,7 @@ public class GCPFileUploader {
 
     public String uploadVideo(final RawFileData fileData) {
         validateFileExists(fileData);
+        validateFileDuration(fileData.getContent());
         return sendVideoToStorage(fileData);
     }
 
@@ -118,5 +127,28 @@ public class GCPFileUploader {
         if (file == null) {
             throw new UnExistFileException();
         }
+    }
+
+    private void validateFileDuration(InputStream videoStream) {
+        try {
+            double videoDuration = getVideoDuration(videoStream);
+
+            if (videoDuration < LIMIT_TIME) {
+                throw new InvalidDurationException();
+            }
+        } catch (ImageProcessingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (MetadataException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static double getVideoDuration(InputStream videoStream) throws ImageProcessingException, IOException, MetadataException {
+        Metadata metadata = null;
+        metadata = ImageMetadataReader.readMetadata(videoStream);
+        Directory directory = metadata.getFirstDirectoryOfType(Mp4Directory.class);
+        return Math.floor(directory.getDouble(Mp4Directory.TAG_DURATION_SECONDS));
     }
 }
