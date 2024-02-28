@@ -1,6 +1,5 @@
 package com.boostcamp.zzimkong.exception;
 
-import com.boostcamp.zzimkong.domain.file.FileExtension;
 import org.springframework.http.HttpStatus;
 
 public class InvalidFileTypeException extends ZzimkongException {

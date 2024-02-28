@@ -1,6 +1,5 @@
 package com.boostcamp.zzimkong.service.dto;
 
-import com.boostcamp.zzimkong.domain.file.RawFileData;
 import com.boostcamp.zzimkong.domain.furniture.FurnitureUploadFile;
 import lombok.*;
 
