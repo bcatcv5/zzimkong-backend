@@ -32,7 +32,7 @@ public class GCPFileUploader {
 
     private final String bucket;
 
-    private static final int LIMIT_TIME = 400;
+    private static final int LIMIT_TIME = 600;
     private static final int CHUNK_SIZE = 1024 * 1024 * 200;
     private static final int START_IDX = 0;
     private static final int DEST_POS = 0;
@@ -133,7 +133,7 @@ public class GCPFileUploader {
         try {
             double videoDuration = getVideoDuration(videoStream);
 
-            if (videoDuration < LIMIT_TIME) {
+            if (videoDuration >= LIMIT_TIME) {
                 throw new InvalidDurationException();
             }
         } catch (ImageProcessingException e) {
