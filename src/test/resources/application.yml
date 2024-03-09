@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    active: test
+  jpa:
+    show_sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+  cloud:
+    gcp:
+      storage:
+        bucket: test
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+        resource:
+          transaction: DEBUG
+      springframework:
+        transaction:
+          interceptor: TRACE
+        orm:
+          jpa:
+            JpaTransactionManager: DEBUG
