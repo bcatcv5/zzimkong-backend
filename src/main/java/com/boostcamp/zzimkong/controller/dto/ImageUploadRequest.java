@@ -2,6 +2,7 @@ package com.boostcamp.zzimkong.controller.dto;
 
 import com.boostcamp.zzimkong.utils.validator.ImageExistsConstraint;
 import com.boostcamp.zzimkong.utils.validator.ImageExtensionConstraint;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,4 +23,7 @@ public class ImageUploadRequest {
 
     @NotNull
     private Long id;
+
+    @NotBlank
+    private String title;
 }

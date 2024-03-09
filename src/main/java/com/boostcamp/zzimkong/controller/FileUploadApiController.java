@@ -38,7 +38,11 @@ public class FileUploadApiController {
     public ResponseEntity<VideoFileSaveResponse> uploadImage(
             @ModelAttribute @Valid VideoUploadRequest videoUploadRequest
     ) {
-        RawFileData rawFileData = FileConverter.convertVideoFile(videoUploadRequest.getFile(), uuidHolder);
+        RawFileData rawFileData = FileConverter.convertVideoFile(
+                videoUploadRequest.getFile(),
+                uuidHolder,
+                videoUploadRequest.getTitle()
+        );
         String videoUploadUrl = gcpFileUploader.uploadVideo(rawFileData);
 
         VideoFileSaveResponse videoFileSaveResponse =
@@ -52,7 +56,11 @@ public class FileUploadApiController {
     public ResponseEntity<ImageFileSaveResponses> uploadImage(
             @ModelAttribute @Valid ImageUploadRequest imageUploadRequest
     ) {
-        List<RawFileData> rawFileDatas = FileConverter.convertImageFiles(imageUploadRequest.getFiles(), uuidHolder);
+        List<RawFileData> rawFileDatas = FileConverter.convertImageFiles(
+                imageUploadRequest.getFiles(),
+                uuidHolder,
+                imageUploadRequest.getTitle()
+        );
         List<String> imageUploadUrls = gcpFileUploader.uploadImages(rawFileDatas);
 
         ImageFileSaveResponses imageFileSaveResponses =

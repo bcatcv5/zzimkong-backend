@@ -2,6 +2,8 @@ package com.boostcamp.zzimkong.controller.dto;
 
 import com.boostcamp.zzimkong.utils.validator.VideoExistsConstraint;
 import com.boostcamp.zzimkong.utils.validator.VideoExtensionContraint;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +19,9 @@ public class VideoUploadRequest {
     @VideoExtensionContraint
     private MultipartFile file;
 
+    @NotNull
     private Long id;
+
+    @NotBlank
+    private String title;
 }

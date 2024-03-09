@@ -11,19 +11,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileConverter {
-    public static RawFileData convertVideoFile(final MultipartFile file, final UuidHolder uuidHolder) {
+    public static RawFileData convertVideoFile(final MultipartFile file, final UuidHolder uuidHolder, final String title) {
         if (file == null || file.isEmpty()) {
             return null;
         }
 
-        final String filename = file.getOriginalFilename();
-
         try {
             return new RawFileData(
-                    filename,
+                    title,
                     uuidHolder.random(),
                     file.getContentType(),
-                    FileExtension.getExtensionFromFileName(filename),
+                    FileExtension.getExtensionFromFileName(title),
                     file.getInputStream()
             );
         } catch (IOException e) {
@@ -31,7 +29,7 @@ public class FileConverter {
         }
     }
 
-    public static List<RawFileData> convertImageFiles(final List<MultipartFile> files, final UuidHolder uuidHolder) {
+    public static List<RawFileData> convertImageFiles(final List<MultipartFile> files, final UuidHolder uuidHolder, final String title) {
         if (CollectionUtils.isEmpty(files)) {
             return List.of();
         }
@@ -40,13 +38,11 @@ public class FileConverter {
                 .map(
                         file -> {
                             try {
-                                final String filename = file.getOriginalFilename();
-
                                 return new RawFileData(
-                                        filename,
+                                        title,
                                         uuidHolder.random(),
                                         file.getContentType(),
-                                        FileExtension.getExtensionFromFileName(filename),
+                                        FileExtension.getExtensionFromFileName(title),
                                         file.getInputStream()
                                 );
                             } catch (IOException e) {
