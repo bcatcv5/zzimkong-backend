@@ -29,8 +29,8 @@ public class FurnitureUploadFile extends BaseEntity {
 
     public FurnitureUploadFile(
             User user,
-            String storeFileUrl,
-            String uploadFileName
+            String uploadFileName,
+            String storeFileUrl
     ) {
         this.user = user;
         this.storeFileUrl = storeFileUrl;

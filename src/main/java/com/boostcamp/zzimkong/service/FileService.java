@@ -48,14 +48,14 @@ public class FileService {
         return VideoFileSaveResponse.from(saveSpaceUploadFile);
     }
 
-    public ImageFileSaveResponses save(Long userId, List<RawFileData> rawFileDatas, List<String> imageUploadUrls) {
+    public ImageFileSaveResponses save(Long userId, String uploadFileName, List<String> imageUploadUrls) {
         User findUser = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchMemberException(userId));
 
         List<FurnitureUploadFile> furnitureUploadFiles = IntStream.range(START, imageUploadUrls.size())
                 .mapToObj(idx -> new FurnitureUploadFile(
                         findUser,
-                        rawFileDatas.get(idx).getUploadFileName(),
+                        uploadFileName,
                         imageUploadUrls.get(idx))
                 ).collect(Collectors.toList());
 
