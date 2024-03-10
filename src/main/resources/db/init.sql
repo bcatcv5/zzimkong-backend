@@ -66,6 +66,8 @@ CREATE TABLE message (
         `object_type` BOOLEAN NOT NULL,
         `model` VARCHAR(45) NOT NULL,
         `store_file_url` VARCHAR(255) NOT NULL,
+        `created_date` datetime(6) NOT NULL,
+        `last_modified_date` datetime(6) NOT NULL,
         PRIMARY KEY (`message_id`)
 );
 

@@ -1,5 +1,6 @@
 package com.boostcamp.zzimkong.domain.message;
 
+import com.boostcamp.zzimkong.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "message")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Message {
+public class Message extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
@@ -22,12 +23,12 @@ public class Message {
     private String model;
 
     @Column(name = "store_file_url", length = 255, nullable = true)
-    private String storeFileUrl;
+    private String src;
 
     public Message(Boolean objectType, String model, String storeFileUrl) {
         this.objectType = objectType;
         this.model = model;
-        this.storeFileUrl = storeFileUrl;
+        this.src = storeFileUrl;
     }
 
     public static Message of(String type, String storeFileUrl) {
