@@ -47,6 +47,9 @@ dependencies {
 
     // Video
     implementation 'com.drewnoakes:metadata-extractor:2.16.0'
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {
