@@ -40,13 +40,12 @@ public class FileUploadApiController {
     ) {
         RawFileData rawFileData = FileConverter.convertVideoFile(
                 videoUploadRequest.getFile(),
-                uuidHolder,
-                videoUploadRequest.getTitle()
+                uuidHolder
         );
         String videoUploadUrl = gcpFileUploader.uploadVideo(rawFileData);
 
         VideoFileSaveResponse videoFileSaveResponse =
-                fileService.save(videoUploadRequest.getId(), rawFileData.getUploadFileName(), videoUploadUrl);
+                fileService.save(videoUploadRequest.getId(), videoUploadRequest.getTitle(), videoUploadUrl);
         return ResponseEntity
                 .created(URI.create("/api/video/" + videoFileSaveResponse.getId()))
                 .body(videoFileSaveResponse);
@@ -58,13 +57,12 @@ public class FileUploadApiController {
     ) {
         List<RawFileData> rawFileDatas = FileConverter.convertImageFiles(
                 imageUploadRequest.getFiles(),
-                uuidHolder,
-                imageUploadRequest.getTitle()
+                uuidHolder
         );
         List<String> imageUploadUrls = gcpFileUploader.uploadImages(rawFileDatas);
 
         ImageFileSaveResponses imageFileSaveResponses =
-                fileService.save(imageUploadRequest.getId(), rawFileDatas, imageUploadUrls);
+                fileService.save(imageUploadRequest.getId(), imageUploadRequest.getTitle(), imageUploadUrls);
 
         return ResponseEntity
                 .ok(imageFileSaveResponses);
