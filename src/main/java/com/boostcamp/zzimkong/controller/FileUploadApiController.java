@@ -9,6 +9,7 @@ import com.boostcamp.zzimkong.service.dto.VideoFileSaveResponse;
 import com.boostcamp.zzimkong.support.UuidHolder;
 import com.boostcamp.zzimkong.support.file.FileConverter;
 import com.boostcamp.zzimkong.support.file.GCPFileUploader;
+import com.boostcamp.zzimkong.support.file.MessageConsumer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class FileUploadApiController {
     private final GCPFileUploader gcpFileUploader;
     private final UuidHolder uuidHolder;
     private final FileService fileService;
+    private final MessageConsumer messageConsumer;
 
     @PostMapping(value = "/video", consumes = MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<VideoFileSaveResponse> uploadImage(
@@ -44,6 +46,7 @@ public class FileUploadApiController {
                 videoUploadRequest.getTitle()
         );
         String videoUploadUrl = gcpFileUploader.uploadVideo(rawFileData);
+        messageConsumer.sendSpaceMessage(videoUploadUrl);
 
         VideoFileSaveResponse videoFileSaveResponse =
                 fileService.save(videoUploadRequest.getId(), rawFileData.getUploadFileName(), videoUploadUrl);
