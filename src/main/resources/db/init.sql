@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS furniture_model_result;
 DROP TABLE IF EXISTS furniture_upload_file;
 DROP TABLE IF EXISTS space_upload_file;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS message;
 
 CREATE TABLE users (
        `user_id` BIGINT AUTO_INCREMENT,
@@ -58,6 +59,14 @@ CREATE TABLE furniture_model_result (
         PRIMARY KEY (`model_result_id`),
         FOREIGN KEY (`user_id`)
             REFERENCES `users` (`user_id`)
+);
+
+CREATE TABLE message (
+        `message_id` BIGINT AUTO_INCREMENT,
+        `object_type` BOOLEAN NOT NULL,
+        `model` VARCHAR(45) NOT NULL,
+        `store_file_url` VARCHAR(255) NOT NULL,
+        PRIMARY KEY (`message_id`)
 );
 
 INSERT INTO users
