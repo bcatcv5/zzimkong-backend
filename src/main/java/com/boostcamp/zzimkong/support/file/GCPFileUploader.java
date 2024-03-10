@@ -9,6 +9,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.mp4.Mp4Directory;
+import com.google.api.client.util.IOUtils;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -48,13 +51,25 @@ public class GCPFileUploader {
     }
 
     public String uploadVideo(final RawFileData fileData) {
-        validateFileExists(fileData);
-        validateFileDuration(fileData.getContent());
-        return sendVideoToStorage(fileData);
+        try (InputStream inputStream = fileData.getContent()) {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            IOUtils.copy(inputStream, outputStream);
+
+            InputStream durationCheckStream = new ByteArrayInputStream(outputStream.toByteArray());
+            InputStream uploadStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+            validateFileExists(fileData);
+            validateFileDuration(durationCheckStream);
+
+            durationCheckStream.close();
+            return sendVideoToStorage(fileData, uploadStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private String sendVideoToStorage(final RawFileData fileData) {
-        try (final InputStream inputStream = fileData.getContent()) {
+    private String sendVideoToStorage(final RawFileData fileData, InputStream inputStream) {
+        try {
             String fileName = fileData.getStoreFileName();
             byte[] fileBytes = inputStream.readAllBytes();
             int numChunks = (int) Math.ceil((double) fileBytes.length / CHUNK_SIZE);
@@ -146,14 +161,14 @@ public class GCPFileUploader {
         }
     }
 
-    private static boolean isNotInRange(double videoDuration) {
-        return videoDuration >= MAX || videoDuration <= MIN;
-    }
-
     private static double getVideoDuration(InputStream videoStream) throws ImageProcessingException, IOException, MetadataException {
         Metadata metadata = null;
         metadata = ImageMetadataReader.readMetadata(videoStream);
         Directory directory = metadata.getFirstDirectoryOfType(Mp4Directory.class);
         return Math.floor(directory.getDouble(Mp4Directory.TAG_DURATION_SECONDS));
+    }
+
+    private static boolean isNotInRange(double videoDuration) {
+        return videoDuration >= MAX || videoDuration <= MIN;
     }
 }

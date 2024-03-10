@@ -6,7 +6,8 @@ import java.util.Arrays;
 
 @Getter
 public enum Model {
-    NERFACTO("nerfacto", "공간");
+    NERFACTO("nerfacto", "공간"),
+    OPENLRM("openlrm", "가구");
 
     private final String model;
 

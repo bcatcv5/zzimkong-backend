@@ -1,4 +1,4 @@
-package com.boostcamp.zzimkong.support.file;
+package com.boostcamp.zzimkong.support;
 
 import com.boostcamp.zzimkong.domain.message.Message;
 import com.boostcamp.zzimkong.repository.MessageRepository;
@@ -20,9 +20,9 @@ public class MessageConsumer {
         this.objectMapper = objectMapper;
     }
 
-    public void sendSpaceMessage(String storeFileUrl) {
+    public void sendSpaceMessage(String storeFileUrl, String type) {
         //TODO: 추론 테스트
-        Message saveMessage = messageRepository.save(Message.of("공간", "1709803553327.mp4"));
+        Message saveMessage = messageRepository.save(Message.of(type, "1709803553327.mp4"));
         messageRepository.save(saveMessage);
 
         String key = saveMessage.isSpace() ? "space" : "furniture";

@@ -9,7 +9,7 @@ import com.boostcamp.zzimkong.service.dto.VideoFileSaveResponse;
 import com.boostcamp.zzimkong.support.UuidHolder;
 import com.boostcamp.zzimkong.support.file.FileConverter;
 import com.boostcamp.zzimkong.support.file.GCPFileUploader;
-import com.boostcamp.zzimkong.support.file.MessageConsumer;
+import com.boostcamp.zzimkong.support.MessageConsumer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class FileUploadApiController {
                 uuidHolder
         );
         String videoUploadUrl = gcpFileUploader.uploadVideo(rawFileData);
-        messageConsumer.sendSpaceMessage(videoUploadUrl);
+        messageConsumer.sendSpaceMessage(videoUploadUrl, "공간");
 
         VideoFileSaveResponse videoFileSaveResponse =
                 fileService.save(videoUploadRequest.getId(), videoUploadRequest.getTitle(), videoUploadUrl);
@@ -63,6 +63,7 @@ public class FileUploadApiController {
                 uuidHolder
         );
         List<String> imageUploadUrls = gcpFileUploader.uploadImages(rawFileDatas);
+        messageConsumer.sendSpaceMessage(imageUploadUrls.get(0), "가구");
 
         ImageFileSaveResponses imageFileSaveResponses =
                 fileService.save(imageUploadRequest.getId(), imageUploadRequest.getTitle(), imageUploadUrls);
