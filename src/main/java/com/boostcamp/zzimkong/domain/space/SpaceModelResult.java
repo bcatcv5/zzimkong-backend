@@ -22,6 +22,9 @@ public class SpaceModelResult extends BaseEntity {
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_space_model_result_user"), nullable = false)
     private User user;
 
+    @Column(name = "message_id", nullable = false)
+    private Long messageId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status_code", nullable = false, columnDefinition = "VARCHAR(45)")
     private StatusCode statusCode;
@@ -34,19 +37,22 @@ public class SpaceModelResult extends BaseEntity {
 
     public SpaceModelResult(
             User user,
+            Long messageId,
             StatusCode statusCode,
             String statusMessage,
             String storeFileUrl
     ) {
         this.user = user;
+        this.messageId = messageId;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
         this.storeFileUrl = storeFileUrl;
     }
 
-    public static SpaceModelResult from(User user) {
+    public static SpaceModelResult of(User user, Long messageId) {
         return new SpaceModelResult(
                 user,
+                messageId,
                 StatusCode.PROCESSING,
                 null,
                 null

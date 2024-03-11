@@ -44,9 +44,10 @@ class FileServiceTest {
         Long unExistId = 2L;
         String uploadFileName = "uploadFileName";
         String storeFileUrl = "storeFileUrl";
+        Long messageId = 1L;
 
         // then
-        assertThatThrownBy(() -> fileService.save(unExistId, uploadFileName, storeFileUrl))
+        assertThatThrownBy(() -> fileService.save(unExistId, uploadFileName, storeFileUrl, messageId))
                 .isInstanceOf(NoSuchMemberException.class)
                 .hasMessage("존재하지 않은 회원입니다. userId={%d}", unExistId);
     }
@@ -58,12 +59,14 @@ class FileServiceTest {
         Long userId = 1L;
         String expectedUploadFileName = "uploadFileName";
         String expectedStoreFileUrl = "storeFileUrl";
+        Long messageId = 1L;
 
         // when
         Long saveFileId = fileService.save(
                 userId,
                 expectedUploadFileName,
-                expectedStoreFileUrl
+                expectedStoreFileUrl,
+                messageId
         ).getId();
 
         SpaceUploadFile findSpaceUploadFile = spaceRepository.findById(saveFileId)

@@ -38,17 +38,17 @@ public class FileService {
     private final FurnitureRepository furnitureRepository;
     private final FurnitureResultRepository furnitureResultRepository;
 
-    public VideoFileSaveResponse save(Long userId, String uploadFileName, String storeFileUrl) {
+    public VideoFileSaveResponse save(Long userId, String uploadFileName, String storeFileUrl, Long messageId) {
         User findUser = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchMemberException(userId));
         SpaceUploadFile spaceUploadFile = new SpaceUploadFile(findUser, storeFileUrl, uploadFileName);
 
-        spaceResultRepository.save(SpaceModelResult.from(findUser));
+        spaceResultRepository.save(SpaceModelResult.of(findUser, messageId));
         SpaceUploadFile saveSpaceUploadFile = spaceRepository.save(spaceUploadFile);
         return VideoFileSaveResponse.from(saveSpaceUploadFile);
     }
 
-    public ImageFileSaveResponses save(Long userId, String uploadFileName, List<String> imageUploadUrls) {
+    public ImageFileSaveResponses save(Long userId, String uploadFileName, List<String> imageUploadUrls, Long message_id) {
         User findUser = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchMemberException(userId));
 
@@ -62,7 +62,7 @@ public class FileService {
         IntStream.range(START, furnitureUploadFiles.size())
                         .forEach(idx -> {
                             furnitureRepository.save(furnitureUploadFiles.get(idx));
-                            furnitureResultRepository.save(FurnitureModelResult.from(findUser));
+                            furnitureResultRepository.save(FurnitureModelResult.of(findUser, message_id));
                         });
 
         List<ImageFileSaveResponse> imageFileSaveResponses = furnitureUploadFiles.stream()

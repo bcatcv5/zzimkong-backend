@@ -38,6 +38,7 @@ CREATE TABLE space_upload_file (
 CREATE TABLE space_model_result (
        `model_result_id` BIGINT AUTO_INCREMENT,
        `user_id` bigint NOT NULL,
+       `message_id` bigint NOT NULL,
        `status_code` VARCHAR(45) NOT NULL,
        `status_message` VARCHAR(255) DEFAULT NULL,
        `store_file_url` VARCHAR(255) DEFAULT NULL,
@@ -51,6 +52,7 @@ CREATE TABLE space_model_result (
 CREATE TABLE furniture_model_result (
         `model_result_id` BIGINT AUTO_INCREMENT,
         `user_id` bigint NOT NULL,
+        `message_id` bigint NOT NULL,
         `status_code` VARCHAR(45) NOT NULL,
         `status_message` VARCHAR(255) DEFAULT NULL,
         `store_file_url` VARCHAR(255) DEFAULT NULL,

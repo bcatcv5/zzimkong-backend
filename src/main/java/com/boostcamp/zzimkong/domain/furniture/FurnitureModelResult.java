@@ -24,6 +24,9 @@ public class FurnitureModelResult extends BaseEntity {
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_furniture_model_result_user"), nullable = false)
     private User user;
 
+    @Column(name = "message_id", nullable = false)
+    private Long messageId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status_code", nullable = false, columnDefinition = "VARCHAR(45)")
     private StatusCode statusCode;
@@ -36,19 +39,22 @@ public class FurnitureModelResult extends BaseEntity {
 
     public FurnitureModelResult(
             User user,
+            Long messageId,
             StatusCode statusCode,
             String statusMessage,
             String storeFileUrl
     ) {
         this.user = user;
+        this.messageId = messageId;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
         this.storeFileUrl = storeFileUrl;
     }
 
-    public static FurnitureModelResult from(User user) {
+    public static FurnitureModelResult of(User user, Long message_id) {
         return new FurnitureModelResult(
                 user,
+                message_id,
                 StatusCode.PROCESSING,
                 null,
                 null
