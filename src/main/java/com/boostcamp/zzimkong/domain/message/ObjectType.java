@@ -4,10 +4,13 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.FURNITURE_TYPE;
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.SPACE_TYPE;
+
 @Getter
 public enum ObjectType {
-    False("공간", false),
-    True("가구", true);
+    False(SPACE_TYPE, false),
+    True(FURNITURE_TYPE, true);
 
     private final String type;
 

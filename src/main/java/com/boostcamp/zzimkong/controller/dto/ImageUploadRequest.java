@@ -1,5 +1,7 @@
 package com.boostcamp.zzimkong.controller.dto;
 
+import com.boostcamp.zzimkong.service.dto.ImageUploadRequestDto;
+import com.boostcamp.zzimkong.service.dto.VideoUploadRequestDto;
 import com.boostcamp.zzimkong.utils.validator.ImageExistsConstraint;
 import com.boostcamp.zzimkong.utils.validator.ImageExtensionConstraint;
 import jakarta.validation.constraints.NotBlank;
@@ -26,4 +28,13 @@ public class ImageUploadRequest {
 
     @NotBlank
     private String title;
+
+    public ImageUploadRequestDto toServiceDto(List<String> imageUploadUrls, Long messageId) {
+        return new ImageUploadRequestDto(
+                id,
+                title,
+                imageUploadUrls,
+                messageId
+        );
+    }
 }

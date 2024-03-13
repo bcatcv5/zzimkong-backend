@@ -4,10 +4,13 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.FURNITURE_TYPE;
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.SPACE_TYPE;
+
 @Getter
 public enum Model {
-    NERFACTO("nerfacto", "공간"),
-    OPENLRM("openlrm", "가구");
+    NERFACTO("nerfacto", SPACE_TYPE),
+    OPENLRM("openlrm", FURNITURE_TYPE);
 
     private final String model;
 

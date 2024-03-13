@@ -1,5 +1,6 @@
 package com.boostcamp.zzimkong.controller.dto;
 
+import com.boostcamp.zzimkong.service.dto.VideoUploadRequestDto;
 import com.boostcamp.zzimkong.utils.validator.VideoExistsConstraint;
 import com.boostcamp.zzimkong.utils.validator.VideoExtensionContraint;
 import jakarta.validation.constraints.NotBlank;
@@ -24,4 +25,13 @@ public class VideoUploadRequest {
 
     @NotBlank
     private String title;
+
+    public VideoUploadRequestDto toServiceDto(String videoUploadUrl, Long messageId) {
+        return new VideoUploadRequestDto(
+                id,
+                title,
+                videoUploadUrl,
+                messageId
+        );
+    }
 }
