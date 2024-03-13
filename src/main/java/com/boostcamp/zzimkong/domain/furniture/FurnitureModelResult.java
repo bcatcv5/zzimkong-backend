@@ -37,18 +37,23 @@ public class FurnitureModelResult extends BaseEntity {
     @Column(name = "store_file_url", length = 255, nullable = true)
     private String storeFileUrl;
 
+    @Column(name = "thumbnail_file_url", length = 255, nullable = true)
+    private String thumbnailFileUrl;
+
     public FurnitureModelResult(
             User user,
             Long messageId,
             StatusCode statusCode,
             String statusMessage,
-            String storeFileUrl
+            String storeFileUrl,
+            String thumbnailFileUrl
     ) {
         this.user = user;
         this.messageId = messageId;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
         this.storeFileUrl = storeFileUrl;
+        this.thumbnailFileUrl = thumbnailFileUrl;
     }
 
     public static FurnitureModelResult of(User user, Long message_id) {
@@ -56,6 +61,7 @@ public class FurnitureModelResult extends BaseEntity {
                 user,
                 message_id,
                 StatusCode.PROCESSING,
+                null,
                 null,
                 null
         );
