@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.List;
 
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.*;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 
@@ -45,10 +46,10 @@ public class FileUploadApiController {
                 uuidHolder
         );
         String videoUploadUrl = gcpFileUploader.uploadVideo(rawFileData);
-        messageConsumer.sendSpaceMessage(videoUploadUrl, "공간");
+        Long messageId = messageConsumer.sendSpaceMessage(videoUploadUrl, SPACE_TYPE);
 
         VideoFileSaveResponse videoFileSaveResponse =
-                fileService.save(videoUploadRequest.getId(), videoUploadRequest.getTitle(), videoUploadUrl);
+                fileService.save(videoUploadRequest.toServiceDto(videoUploadUrl, messageId));
         return ResponseEntity
                 .created(URI.create("/api/video/" + videoFileSaveResponse.getId()))
                 .body(videoFileSaveResponse);
@@ -63,10 +64,10 @@ public class FileUploadApiController {
                 uuidHolder
         );
         List<String> imageUploadUrls = gcpFileUploader.uploadImages(rawFileDatas);
-        messageConsumer.sendSpaceMessage(imageUploadUrls.get(0), "가구");
+        Long message_id = messageConsumer.sendSpaceMessage(imageUploadUrls.get(START_IDX), FURNITURE_TYPE);
 
         ImageFileSaveResponses imageFileSaveResponses =
-                fileService.save(imageUploadRequest.getId(), imageUploadRequest.getTitle(), imageUploadUrls);
+                fileService.save(imageUploadRequest.toServiceDto(imageUploadUrls, message_id));
 
         return ResponseEntity
                 .ok(imageFileSaveResponses);

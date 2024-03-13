@@ -20,9 +20,8 @@ public class MessageConsumer {
         this.objectMapper = objectMapper;
     }
 
-    public void sendSpaceMessage(String storeFileUrl, String type) {
-        //TODO: 추론 테스트
-        Message saveMessage = messageRepository.save(Message.of(type, "1709803553327.mp4"));
+    public Long sendSpaceMessage(String storeFileUrl, String type) {
+        Message saveMessage = messageRepository.save(Message.of(type, storeFileUrl));
         messageRepository.save(saveMessage);
 
         String key = saveMessage.isSpace() ? "space" : "furniture";
@@ -32,5 +31,9 @@ public class MessageConsumer {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
+        return saveMessage.getId();
     }
+
+
 }
