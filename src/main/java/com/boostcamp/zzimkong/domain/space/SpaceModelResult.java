@@ -32,6 +32,9 @@ public class SpaceModelResult extends BaseEntity {
     @Column(name = "store_file_url", length = 255, nullable = true)
     private String storeFileUrl;
 
+    @Column(name = "status_pushed", nullable = true)
+    private Boolean statusPushed;
+
     public SpaceModelResult(
             User user,
             StatusCode statusCode,

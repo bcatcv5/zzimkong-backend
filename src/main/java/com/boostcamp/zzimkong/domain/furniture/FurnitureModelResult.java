@@ -34,6 +34,9 @@ public class FurnitureModelResult extends BaseEntity {
     @Column(name = "store_file_url", length = 255, nullable = true)
     private String storeFileUrl;
 
+    @Column(name = "status_pushed", nullable = true)
+    private Boolean statusPushed;
+
     public FurnitureModelResult(
             User user,
             StatusCode statusCode,
