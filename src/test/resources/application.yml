@@ -13,6 +13,14 @@ spring:
       storage:
         bucket: test
 
+oauth:
+  google:
+    payload:
+      client_id: ${GOOGLE_OAUTH_CLIENT_ID}
+      client_secret: ${GOOGLE_OAUTH_CLIENT_SECRET}
+      redirect_uri: ${GOOGLE_OAUTH_REDIRECT_URL}
+      grant_type: ${GOOGLE_OAUTH_GRANT_TYPE}
+
 logging:
   level:
     org:
