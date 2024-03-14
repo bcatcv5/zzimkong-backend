@@ -20,11 +20,14 @@ CREATE TABLE furniture_upload_file
     PRIMARY KEY (`upload_id`)
 );
 
-CREATE TABLE users
-(
-    `user_id` BIGINT NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`user_id`)
+CREATE TABLE users (
+   `user_id` BIGINT AUTO_INCREMENT,
+   `provider` VARCHAR(255) NOT NULL,
+   `oauth_id` VARCHAR(255) NOT NULL,
+   `name` VARCHAR(255) NOT NULL,
+   `email` VARCHAR(255) NOT NULL,
+   `photo_url` VARCHAR(255) NOT NULL,
+   PRIMARY KEY (`user_id`)
 );
 
 CREATE TABLE space_model_result (
