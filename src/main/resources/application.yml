@@ -27,20 +27,3 @@ spring:
     init:
       mode: always
       data-locations: classpath:db/init.sql
-
-logging:
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
-        resource:
-          transaction: DEBUG
-      springframework:
-        transaction:
-          interceptor: TRACE
-        orm:
-          jpa:
-            JpaTransactionManager: DEBUG
