@@ -13,6 +13,11 @@ spring:
       storage:
         bucket: test
 
+jwt:
+  token:
+    secret-key: ${JWT_SECRET_KEY}
+    expire-length: 3600000
+
 oauth:
   google:
     payload:
