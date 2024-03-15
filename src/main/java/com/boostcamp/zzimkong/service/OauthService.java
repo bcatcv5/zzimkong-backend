@@ -29,6 +29,6 @@ public class OauthService {
 
     public User findUser(User user) {
         return userRepository.findByOauthId(user.getOauthId())
-                .orElseGet(()->this.signUp(user));
+                .orElseGet(() -> this.signUp(user));
     }
 }
