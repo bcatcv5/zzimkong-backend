@@ -47,6 +47,17 @@ dependencies {
 
     // Video
     implementation 'com.drewnoakes:metadata-extractor:2.16.0'
+
+    // HTTP
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // HTTP MAC
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
+
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 }
 
 tasks.named('test') {
