@@ -1,8 +1,6 @@
 package com.boostcamp.zzimkong.config.batch;
 
-import com.boostcamp.zzimkong.domain.furniture.FurnitureModelResult;
 import com.boostcamp.zzimkong.domain.space.SpaceModelResult;
-import com.boostcamp.zzimkong.repository.modelresult.FurnitureResultRepository;
 import com.boostcamp.zzimkong.repository.modelresult.SpaceResultRepository;
 import com.boostcamp.zzimkong.service.EmailService;
 import lombok.RequiredArgsConstructor;

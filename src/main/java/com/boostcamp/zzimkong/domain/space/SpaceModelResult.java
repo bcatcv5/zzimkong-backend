@@ -3,7 +3,6 @@ package com.boostcamp.zzimkong.domain.space;
 import com.boostcamp.zzimkong.domain.BaseEntity;
 import com.boostcamp.zzimkong.domain.StatusCode;
 import com.boostcamp.zzimkong.domain.User;
-import com.boostcamp.zzimkong.domain.furniture.FurnitureModelResult;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

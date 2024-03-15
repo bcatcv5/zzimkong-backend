@@ -1,6 +1,5 @@
 package com.boostcamp.zzimkong.repository.modelresult;
 
-import com.boostcamp.zzimkong.domain.furniture.FurnitureModelResult;
 import com.boostcamp.zzimkong.domain.space.SpaceModelResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

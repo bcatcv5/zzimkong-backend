@@ -1,7 +1,6 @@
 package com.boostcamp.zzimkong.service;
 
 import com.boostcamp.zzimkong.domain.User;
-import com.boostcamp.zzimkong.domain.file.RawFileData;
 import com.boostcamp.zzimkong.domain.furniture.FurnitureModelResult;
 import com.boostcamp.zzimkong.domain.furniture.FurnitureUploadFile;
 import com.boostcamp.zzimkong.domain.space.SpaceModelResult;
