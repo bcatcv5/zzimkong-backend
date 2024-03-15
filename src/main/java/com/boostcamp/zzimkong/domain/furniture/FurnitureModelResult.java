@@ -34,6 +34,9 @@ public class FurnitureModelResult extends BaseEntity {
     @Column(name = "store_file_url", length = 255, nullable = true)
     private String storeFileUrl;
 
+    @Column(name = "upload_file_name", length = 255, nullable = false)
+    private String uploadFileName;
+
     @Column(name = "status_pushed", nullable = true)
     private Boolean statusPushed;
 
@@ -41,20 +44,30 @@ public class FurnitureModelResult extends BaseEntity {
             User user,
             StatusCode statusCode,
             String statusMessage,
-            String storeFileUrl
+            String storeFileUrl,
+            String uploadFileName,
+            Boolean statusPushed
     ) {
         this.user = user;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
         this.storeFileUrl = storeFileUrl;
+        this.uploadFileName = uploadFileName;
+        this.statusPushed = statusPushed;
     }
 
-    public static FurnitureModelResult from(User user) {
+    public static FurnitureModelResult of(User user, String uploadFileName) {
         return new FurnitureModelResult(
                 user,
                 StatusCode.PROCESSING,
                 null,
-                null
+                null,
+                uploadFileName,
+                false
         );
+    }
+
+    public String getEmail() {
+        return "hsb990917@gmail.com";
     }
 }

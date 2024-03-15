@@ -3,6 +3,7 @@ package com.boostcamp.zzimkong.domain.space;
 import com.boostcamp.zzimkong.domain.BaseEntity;
 import com.boostcamp.zzimkong.domain.StatusCode;
 import com.boostcamp.zzimkong.domain.User;
+import com.boostcamp.zzimkong.domain.furniture.FurnitureModelResult;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,6 +33,9 @@ public class SpaceModelResult extends BaseEntity {
     @Column(name = "store_file_url", length = 255, nullable = true)
     private String storeFileUrl;
 
+    @Column(name = "upload_file_name", length = 255, nullable = false)
+    private String uploadFileName;
+
     @Column(name = "status_pushed", nullable = true)
     private Boolean statusPushed;
 
@@ -39,20 +43,30 @@ public class SpaceModelResult extends BaseEntity {
             User user,
             StatusCode statusCode,
             String statusMessage,
-            String storeFileUrl
+            String storeFileUrl,
+            String uploadFileName,
+            Boolean statusPushed
     ) {
         this.user = user;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
         this.storeFileUrl = storeFileUrl;
+        this.uploadFileName = uploadFileName;
+        this.statusPushed = statusPushed;
     }
 
-    public static SpaceModelResult from(User user) {
+    public static SpaceModelResult of(User user, String uploadFileName) {
         return new SpaceModelResult(
                 user,
                 StatusCode.PROCESSING,
                 null,
-                null
+                null,
+                uploadFileName,
+                false
         );
+    }
+
+    public String getEmail() {
+        return "hsb990917@gmail.com";
     }
 }

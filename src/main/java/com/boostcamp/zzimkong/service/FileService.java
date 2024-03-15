@@ -43,7 +43,7 @@ public class FileService {
                 .orElseThrow(() -> new NoSuchMemberException(userId));
         SpaceUploadFile spaceUploadFile = new SpaceUploadFile(findUser, storeFileUrl, uploadFileName);
 
-        spaceResultRepository.save(SpaceModelResult.from(findUser));
+        spaceResultRepository.save(SpaceModelResult.of(findUser, uploadFileName));
         SpaceUploadFile saveSpaceUploadFile = spaceRepository.save(spaceUploadFile);
         return VideoFileSaveResponse.from(saveSpaceUploadFile);
     }
@@ -62,7 +62,7 @@ public class FileService {
         IntStream.range(START, furnitureUploadFiles.size())
                         .forEach(idx -> {
                             furnitureRepository.save(furnitureUploadFiles.get(idx));
-                            furnitureResultRepository.save(FurnitureModelResult.from(findUser));
+                            furnitureResultRepository.save(FurnitureModelResult.of(findUser, uploadFileName));
                         });
 
         List<ImageFileSaveResponse> imageFileSaveResponses = furnitureUploadFiles.stream()
