@@ -11,10 +11,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface SpaceResultRepository extends JpaRepository<SpaceModelResult, Long> {
 
-    @Query("select f from SpaceModelResult f left join fetch f.user where f.statusPushed = :statusPushed")
+    @Query("select f from SpaceModelResult f left join fetch f.user where f.statusPushed = :statusPushed and f.statusCode != 'PROCESSING'")
     Page<SpaceModelResult> findByStatusPushed(@Param("statusPushed") Boolean statusPushed, Pageable pageable);
 
     @Modifying(clearAutomatically = true)
-    @Query("update SpaceModelResult f set f.statusPushed = true where f.statusPushed = :statusPushed")
+    @Query("update SpaceModelResult f set f.statusPushed = true where f.statusPushed = :statusPushed and f.statusCode != 'PROCESSING'")
     int updateStatusPushed(@Param("statusPushed") Boolean statusPushed);
 }

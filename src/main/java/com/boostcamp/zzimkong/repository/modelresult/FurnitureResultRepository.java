@@ -13,10 +13,10 @@ import java.util.List;
 
 public interface FurnitureResultRepository extends JpaRepository<FurnitureModelResult, Long> {
 
-    @Query("select f from FurnitureModelResult f left join fetch f.user where f.statusPushed = :statusPushed")
+    @Query("select f from FurnitureModelResult f left join fetch f.user where f.statusPushed = :statusPushed and f.statusCode != 'PROCESSING'")
     Page<FurnitureModelResult> findByStatusPushed(@Param("statusPushed") Boolean statusPushed, Pageable pageable);
 
     @Modifying(clearAutomatically = true)
-    @Query("update FurnitureModelResult f set f.statusPushed = true where f.statusPushed = :statusPushed")
+    @Query("update FurnitureModelResult f set f.statusPushed = true where f.statusPushed = :statusPushed and f.statusCode != 'PROCESSING'")
     int updateStatusPushed(@Param("statusPushed") Boolean statusPushed);
 }
