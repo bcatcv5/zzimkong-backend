@@ -1,8 +1,10 @@
 package com.boostcamp.zzimkong.config.batch;
 
-import com.boostcamp.zzimkong.domain.StatusCode;
 import com.boostcamp.zzimkong.domain.furniture.FurnitureModelResult;
+import com.boostcamp.zzimkong.domain.space.SpaceModelResult;
 import com.boostcamp.zzimkong.repository.modelresult.FurnitureResultRepository;
+import com.boostcamp.zzimkong.repository.modelresult.SpaceResultRepository;
+import com.boostcamp.zzimkong.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -14,7 +16,6 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.RepositoryItemReader;
-import org.springframework.batch.item.support.IteratorItemReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
@@ -25,47 +26,53 @@ import java.util.Collections;
 @Configuration
 @EnableBatchProcessing
 @RequiredArgsConstructor
-public class BatchConfig {
+public class SpaceBatchConfig {
 
-    private final FurnitureResultRepository furnitureResultRepository;
+    private final SpaceResultRepository spaceResultRepository;
     private final PlatformTransactionManager transactionManager;
+    private final EmailService emailService;
 
     @Bean
-    public Job finishJob(JobRepository jobRepository) {
-        return new JobBuilder("finishJob", jobRepository)
+    public Job finishSpaceJob(JobRepository jobRepository) {
+        return new JobBuilder("finishSpaceJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
-                .flow(finishStep(jobRepository))
+                .flow(finishSpaceStep(jobRepository))
                 .end()
                 .build();
     }
 
     @Bean
-    public Step finishStep(JobRepository jobRepository) {
-        return new StepBuilder("finishStep", jobRepository)
-                .<FurnitureModelResult, FurnitureModelResult> chunk(10, transactionManager)
-                .reader(reader())
-                .writer(writer())
+    public Step finishSpaceStep(JobRepository jobRepository) {
+        return new StepBuilder("finishSpaceStep", jobRepository)
+                .<SpaceModelResult, SpaceModelResult> chunk(500, transactionManager)
+                .reader(readerSpace())
+                .writer(writerSpace())
                 .build();
     }
 
     @Bean
-    public ItemReader<FurnitureModelResult> reader() {
-        RepositoryItemReader<FurnitureModelResult> reader = new RepositoryItemReader<>();
-        reader.setRepository(furnitureResultRepository);
+    public ItemReader<SpaceModelResult> readerSpace() {
+        RepositoryItemReader<SpaceModelResult> reader = new RepositoryItemReader<>();
+        reader.setRepository(spaceResultRepository);
         reader.setMethodName("findByStatusPushed");
         reader.setArguments(Collections.singletonList(false));
         reader.setSort(Collections.singletonMap("id", Sort.Direction.ASC));
-        reader.setPageSize(10);
+        reader.setPageSize(500);
         return reader;
     }
 
     @Bean
-    public ItemWriter<FurnitureModelResult> writer() {
+    public ItemWriter<SpaceModelResult> writerSpace() {
         return items -> {
-            furnitureResultRepository.updateStatusPushed(false);
-            //TODO: item에서 유저의 이메일을 하나씩 꺼내서 메일 서비스로 보내고 메일 서비스는 이메일만 받아서 이멜 전송하기
-            for (FurnitureModelResult item : items) {
+            spaceResultRepository.updateStatusPushed(false);
+            for (SpaceModelResult item : items) {
                 System.out.println("Found: " + item);
+                emailService.sendMail(
+                        item.getEmail(),
+                        item.getUploadFileName(),
+                        item.getStatusMessage(),
+                        item.getStatusCode().toString()
+                );
             }
         };
     }
