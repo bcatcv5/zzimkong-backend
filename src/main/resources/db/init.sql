@@ -7,7 +7,11 @@ DROP TABLE IF EXISTS message;
 
 CREATE TABLE users (
        `user_id` BIGINT AUTO_INCREMENT,
+       `provider` VARCHAR(255) NOT NULL,
+       `oauth_id` VARCHAR(255) NOT NULL,
        `name` VARCHAR(255) NOT NULL,
+       `email` VARCHAR(255) NOT NULL,
+       `photo_url` VARCHAR(255) NOT NULL,
        PRIMARY KEY (`user_id`)
 );
 
@@ -76,4 +80,4 @@ CREATE TABLE message (
 );
 
 INSERT INTO users
-VALUES (1, 'sangbeom');
+VALUES (1, 'google', '116615750550017788067', 'test-조창희', 'sy589610@gmail.com', 'https://lh3.googleusercontent.com/a/ACg8ocJlnoYCOuxJdzI2eMjw493r1dqRMNVZf8K6JcB9q869IMU=s96-c');
