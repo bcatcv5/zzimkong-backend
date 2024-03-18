@@ -23,7 +23,8 @@ public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/api/**")
                 .excludePathPatterns("/api/auth/oauth/google")
-                .excludePathPatterns("/api/interiorManager/items/gallery/**");
+                .excludePathPatterns("/api/interiorManager/items/gallery/**")
+                .excludePathPatterns("/api/file/shared/**");
     }
 
     @Override
