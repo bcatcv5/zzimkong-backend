@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FurnitureResultRepository extends JpaRepository<FurnitureModelResult, Long> {
-    List<ObjectListResponse> findFurnitureModelResultByUserId(Long userId);
+//    List<ObjectListResponse> findFurnitureModelResultByUserId(Long userId);
+
     Optional<FurnitureModelResult> findFurnitureModelResultByUserIdAndId(Long userId, Long id);
 
     Optional<FurnitureModelResult> findByIdAndSharedIsAndDeletedIs(Long id, boolean shared, boolean deleted);

@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SpaceResultRepository extends JpaRepository<SpaceModelResult, Long> {
-    List<ObjectListResponse> findSpaceModelResultByUserId(Long userId);
+//    List<ObjectListResponse> findSpaceModelResultByUserId(Long userId);
+
     Optional<SpaceModelResult> findSpaceModelResultByUserIdAndId(Long userId, Long id);
 
     Optional<SpaceModelResult> findByIdAndSharedIsAndDeletedIs(Long id, boolean shared, boolean deleted);

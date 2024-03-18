@@ -34,6 +34,4 @@ public class MessageConsumer {
 
         return saveMessage.getId();
     }
-
-
 }
