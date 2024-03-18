@@ -1,5 +1,6 @@
 package com.boostcamp.zzimkong.config;
 
+import com.boostcamp.zzimkong.support.FileTypeEnumConverter;
 import com.boostcamp.zzimkong.support.ObjectTypeEnumConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -10,5 +11,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new ObjectTypeEnumConverter());
+        registry.addConverter(new FileTypeEnumConverter());
     }
 }
