@@ -20,15 +20,11 @@ public class VideoUploadRequest {
     @VideoExtensionContraint
     private MultipartFile file;
 
-    @NotNull
-    private Long id;
-
     @NotBlank
     private String title;
 
     public VideoUploadRequestDto toServiceDto(String videoUploadUrl, Long messageId) {
         return new VideoUploadRequestDto(
-                id,
                 title,
                 videoUploadUrl,
                 messageId

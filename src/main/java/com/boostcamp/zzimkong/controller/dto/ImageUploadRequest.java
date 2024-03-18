@@ -22,15 +22,11 @@ public class ImageUploadRequest {
     @ImageExistsConstraint
     private List<MultipartFile> files;
 
-    @NotNull
-    private Long id;
-
     @NotBlank
     private String title;
 
     public ImageUploadRequestDto toServiceDto(List<String> imageUploadUrls, Long messageId) {
         return new ImageUploadRequestDto(
-                id,
                 title,
                 imageUploadUrls,
                 messageId

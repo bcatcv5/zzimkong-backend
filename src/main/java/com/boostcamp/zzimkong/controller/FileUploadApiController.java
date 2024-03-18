@@ -1,7 +1,9 @@
 package com.boostcamp.zzimkong.controller;
 
+import com.boostcamp.zzimkong.controller.auth.AuthenticationPrincipal;
 import com.boostcamp.zzimkong.controller.dto.ImageUploadRequest;
 import com.boostcamp.zzimkong.controller.dto.VideoUploadRequest;
+import com.boostcamp.zzimkong.controller.dto.auth.SignUserRequest;
 import com.boostcamp.zzimkong.domain.file.RawFileData;
 import com.boostcamp.zzimkong.service.FileService;
 import com.boostcamp.zzimkong.service.dto.ImageFileSaveResponses;
@@ -39,7 +41,8 @@ public class FileUploadApiController {
 
     @PostMapping(value = "/video", consumes = MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<VideoFileSaveResponse> uploadImage(
-            @ModelAttribute @Valid VideoUploadRequest videoUploadRequest
+            @ModelAttribute @Valid VideoUploadRequest videoUploadRequest,
+            @AuthenticationPrincipal SignUserRequest signUserRequest
     ) {
         RawFileData rawFileData = FileConverter.convertVideoFile(
                 videoUploadRequest.getFile(),
@@ -49,7 +52,7 @@ public class FileUploadApiController {
         Long messageId = messageConsumer.sendSpaceMessage(videoUploadUrl, SPACE_TYPE);
 
         VideoFileSaveResponse videoFileSaveResponse =
-                fileService.save(videoUploadRequest.toServiceDto(videoUploadUrl, messageId));
+                fileService.save(videoUploadRequest.toServiceDto(videoUploadUrl, messageId), signUserRequest.getId());
         return ResponseEntity
                 .created(URI.create("/api/video/" + videoFileSaveResponse.getId()))
                 .body(videoFileSaveResponse);
@@ -57,7 +60,8 @@ public class FileUploadApiController {
 
     @PostMapping(value = "/images", consumes = MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageFileSaveResponses> uploadImage(
-            @ModelAttribute @Valid ImageUploadRequest imageUploadRequest
+            @ModelAttribute @Valid ImageUploadRequest imageUploadRequest,
+            @AuthenticationPrincipal SignUserRequest signUserRequest
     ) {
         List<RawFileData> rawFileDatas = FileConverter.convertImageFiles(
                 imageUploadRequest.getFiles(),
@@ -67,7 +71,7 @@ public class FileUploadApiController {
         Long message_id = messageConsumer.sendSpaceMessage(imageUploadUrls.get(START_IDX), FURNITURE_TYPE);
 
         ImageFileSaveResponses imageFileSaveResponses =
-                fileService.save(imageUploadRequest.toServiceDto(imageUploadUrls, message_id));
+                fileService.save(imageUploadRequest.toServiceDto(imageUploadUrls, message_id), signUserRequest.getId());
 
         return ResponseEntity
                 .ok(imageFileSaveResponses);

@@ -1,10 +1,12 @@
 package com.boostcamp.zzimkong.service;
 
+import com.boostcamp.zzimkong.controller.dto.VideoUploadRequest;
 import com.boostcamp.zzimkong.domain.User;
 import com.boostcamp.zzimkong.domain.space.SpaceUploadFile;
 import com.boostcamp.zzimkong.exception.NoSuchMemberException;
 import com.boostcamp.zzimkong.repository.SpaceRepository;
 import com.boostcamp.zzimkong.repository.UserRepository;
+import com.boostcamp.zzimkong.service.dto.VideoUploadRequestDto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +35,7 @@ class FileServiceTest {
 
     @BeforeAll
     void setUp() {
-        dummyUser = new User("dummy");
+        dummyUser = User.dummyUser();
         userRepository.save(dummyUser);
     }
 
@@ -42,12 +44,9 @@ class FileServiceTest {
     void throwException_NoSuchUser() {
         // given
         Long unExistId = 2L;
-        String uploadFileName = "uploadFileName";
-        String storeFileUrl = "storeFileUrl";
-        Long messageId = 1L;
 
         // then
-        assertThatThrownBy(() -> fileService.save(unExistId, uploadFileName, storeFileUrl, messageId))
+        assertThatThrownBy(() -> fileService.save(createDto(), unExistId))
                 .isInstanceOf(NoSuchMemberException.class)
                 .hasMessage("존재하지 않은 회원입니다. userId={%d}", unExistId);
     }
@@ -59,15 +58,10 @@ class FileServiceTest {
         Long userId = 1L;
         String expectedUploadFileName = "uploadFileName";
         String expectedStoreFileUrl = "storeFileUrl";
-        Long messageId = 1L;
 
         // when
-        Long saveFileId = fileService.save(
-                userId,
-                expectedUploadFileName,
-                expectedStoreFileUrl,
-                messageId
-        ).getId();
+        Long saveFileId = fileService.save(createDto(), userId)
+                .getId();
 
         SpaceUploadFile findSpaceUploadFile = spaceRepository.findById(saveFileId)
                 .orElseThrow();
@@ -75,5 +69,9 @@ class FileServiceTest {
         // then
         assertThat(findSpaceUploadFile).extracting("id", "storeFileUrl", "uploadFileName")
                 .containsExactly(saveFileId, expectedStoreFileUrl, expectedUploadFileName);
+    }
+
+    private VideoUploadRequestDto createDto() {
+        return new VideoUploadRequestDto("uploadFileName", "storeFileUrl", 1L);
     }
 }

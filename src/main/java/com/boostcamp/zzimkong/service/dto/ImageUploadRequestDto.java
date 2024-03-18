@@ -9,7 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ImageUploadRequestDto {
 
-    private Long userId;
     private String uploadFileName;
     private List<String> storeFileUrl;
     private Long messageId;

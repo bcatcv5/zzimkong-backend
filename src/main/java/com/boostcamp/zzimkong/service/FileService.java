@@ -35,9 +35,9 @@ public class FileService {
     private final FurnitureRepository furnitureRepository;
     private final FurnitureResultRepository furnitureResultRepository;
 
-    public VideoFileSaveResponse save(final VideoUploadRequestDto videoUploadRequestDto) {
-        User findUser = userRepository.findById(videoUploadRequestDto.getUserId())
-                .orElseThrow(() -> new NoSuchMemberException(videoUploadRequestDto.getUserId()));
+    public VideoFileSaveResponse save(final VideoUploadRequestDto videoUploadRequestDto, final Long id) {
+        User findUser = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchMemberException(id));
         SpaceUploadFile spaceUploadFile = new SpaceUploadFile(
                 findUser,
                 videoUploadRequestDto.getStoreFileUrl(),
@@ -49,9 +49,9 @@ public class FileService {
         return VideoFileSaveResponse.from(saveSpaceUploadFile);
     }
 
-    public ImageFileSaveResponses save(ImageUploadRequestDto imageUploadRequestDto) {
-        User findUser = userRepository.findById(imageUploadRequestDto.getUserId())
-                .orElseThrow(() -> new NoSuchMemberException(imageUploadRequestDto.getUserId()));
+    public ImageFileSaveResponses save(final ImageUploadRequestDto imageUploadRequestDto, final Long id) {
+        User findUser = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchMemberException(id));
 
         List<FurnitureUploadFile> furnitureUploadFiles = IntStream.range(START, imageUploadRequestDto.getStoreFileUrl().size())
                 .mapToObj(idx -> new FurnitureUploadFile(
