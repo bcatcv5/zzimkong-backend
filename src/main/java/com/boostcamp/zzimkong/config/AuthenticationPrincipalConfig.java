@@ -22,7 +22,9 @@ public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SignInterceptor(jwtTokenProvider))
                 .order(1)
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/auth/oauth/google");
+                .excludePathPatterns("/api/auth/oauth/google")
+                .excludePathPatterns("/api/interiorManager/items/gallery/**")
+                .excludePathPatterns("/api/file/shared/**");
     }
 
     @Override

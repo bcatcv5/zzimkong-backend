@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -34,11 +35,27 @@ public class SpaceModelResult extends BaseEntity {
     @Column(name = "status_message", length = 255, nullable = true)
     private String statusMessage;
 
+    @Column(name = "status_pushed", nullable = false)
+    private boolean statusPushed;
+
     @Column(name = "store_file_url", length = 255, nullable = true)
     private String storeFileUrl;
 
     @Column(name = "thumbnail_file_url", length = 255, nullable = true)
     private String thumbnailFileUrl;
+
+    @Column(name = "rating", nullable = false, columnDefinition = "SMALLINT")
+    @Setter
+    private int rating;
+
+    @Column(name = "shared", nullable = false)
+    @Setter
+    @Getter
+    private boolean shared;
+
+    @Column(name = "deleted", nullable = false)
+    @Setter
+    private boolean deleted;
 
     @Column(name = "learned_date", nullable = true)
     private LocalDateTime learnedDate;
@@ -46,20 +63,27 @@ public class SpaceModelResult extends BaseEntity {
     @Column(name = "finished_date", nullable = true)
     private LocalDateTime finishedDate;
 
-    public SpaceModelResult(
-            User user,
-            Long messageId,
-            StatusCode statusCode,
-            String statusMessage,
-            String storeFileUrl,
-            String thumbnailFileUrl
+    public SpaceModelResult(User user,
+                            Long messageId,
+                            StatusCode statusCode,
+                            String statusMessage,
+                            boolean statusPushed,
+                            String storeFileUrl,
+                            String thumbnailFileUrl,
+                            int rating,
+                            boolean shared,
+                            boolean deleted
     ) {
         this.user = user;
         this.messageId = messageId;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
+        this.statusPushed = statusPushed;
         this.storeFileUrl = storeFileUrl;
         this.thumbnailFileUrl = thumbnailFileUrl;
+        this.rating = rating;
+        this.shared = shared;
+        this.deleted = deleted;
     }
 
     public static SpaceModelResult of(User user, Long messageId) {
@@ -68,8 +92,12 @@ public class SpaceModelResult extends BaseEntity {
                 messageId,
                 StatusCode.PROCESSING,
                 null,
+                false,
                 null,
-                null
+                null,
+                2,
+                false,
+                true
         );
     }
 }
