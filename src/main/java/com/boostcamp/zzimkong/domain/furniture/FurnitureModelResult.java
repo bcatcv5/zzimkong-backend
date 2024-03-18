@@ -8,6 +8,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 
 @Entity(name = "FurnitureModelResult")
 @Getter
@@ -39,6 +41,12 @@ public class FurnitureModelResult extends BaseEntity {
 
     @Column(name = "thumbnail_file_url", length = 255, nullable = true)
     private String thumbnailFileUrl;
+
+    @Column(name = "learned_date", nullable = true)
+    private LocalDateTime learnedDate;
+
+    @Column(name = "finished_date", nullable = true)
+    private LocalDateTime finishedDate;
 
     public FurnitureModelResult(
             User user,

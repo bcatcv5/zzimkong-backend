@@ -49,6 +49,8 @@ CREATE TABLE space_model_result (
        `thumbnail_file_url` VARCHAR(255) DEFAULT NULL,
        `created_date` datetime(6) NOT NULL,
        `last_modified_date` datetime(6) NOT NULL,
+       `learned_date` datetime(6) NOT NULL,
+       `finished_date` datetime(6) NOT NULL,
        PRIMARY KEY (`model_result_id`),
        FOREIGN KEY (`user_id`)
            REFERENCES `users` (`user_id`)
@@ -64,6 +66,8 @@ CREATE TABLE furniture_model_result (
         `thumbnail_file_url` VARCHAR(255) DEFAULT NULL,
         `created_date` datetime(6) NOT NULL,
         `last_modified_date` datetime(6) NOT NULL,
+        `learned_date` datetime(6) NOT NULL,
+        `finished_date` datetime(6) NOT NULL,
         PRIMARY KEY (`model_result_id`),
         FOREIGN KEY (`user_id`)
             REFERENCES `users` (`user_id`)
