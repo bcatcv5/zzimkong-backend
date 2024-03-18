@@ -49,7 +49,6 @@ public class InteriorService {
                     .orElseThrow(InvalidObjectAccessException::new);
             result.setShared(!result.isShared());
         }
-
     }
 
     public void updateRating(Long userId, Long objectId, int rating, ObjectType objectType){
