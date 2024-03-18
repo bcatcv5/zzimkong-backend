@@ -1,8 +1,9 @@
-package com.boostcamp.zzimkong.controller.interior;
+package com.boostcamp.zzimkong.controller;
 
 import com.boostcamp.zzimkong.controller.auth.AuthenticationPrincipal;
 import com.boostcamp.zzimkong.controller.dto.auth.SignUserRequest;
 import com.boostcamp.zzimkong.controller.dto.interior.GalleryObjectListResponse;
+import com.boostcamp.zzimkong.controller.dto.interior.InteriorObjectEditRequestParam;
 import com.boostcamp.zzimkong.controller.dto.interior.ObjectListResponse;
 import com.boostcamp.zzimkong.service.InteriorService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,6 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/interiorManager")
 public class InteriorApiController {
     private final InteriorService interiorService;
