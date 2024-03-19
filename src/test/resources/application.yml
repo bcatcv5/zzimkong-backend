@@ -17,6 +17,24 @@ spring:
     port: 587
     username: test
     password: test
+  redis:
+    data:
+      host: localhost
+      port: 6379
+      password: 1234
+
+jwt:
+  token:
+    secret-key: ${JWT_SECRET_KEY}
+    expire-length: 3600000
+
+oauth:
+  google:
+    payload:
+      client_id: ${GOOGLE_OAUTH_CLIENT_ID}
+      client_secret: ${GOOGLE_OAUTH_CLIENT_SECRET}
+      redirect_uri: ${GOOGLE_OAUTH_REDIRECT_URL}
+      grant_type: ${GOOGLE_OAUTH_GRANT_TYPE}
 
 logging:
   level:

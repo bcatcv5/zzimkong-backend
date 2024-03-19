@@ -9,6 +9,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.mp4.Mp4Directory;
+import com.google.api.client.util.IOUtils;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -16,13 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.START_IDX;
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.UPLOAD_FAIL_MESSAGE;
 
 @Slf4j
 @Component
@@ -35,9 +38,13 @@ public class GCPFileUploader {
     private static final int MAX = 600;
     private static final int MIN = 120;
     private static final int CHUNK_SIZE = 1024 * 1024 * 200;
-    private static final int START_IDX = 0;
     private static final int DEST_POS = 0;
     private static final int INITIAL_SIZE = 0;
+    public static final String STORAGE_URL = "https://storage.googleapis.com";
+    public static final String SPACE_URI = "space/video/";
+    public static final String FURNITURE_URI = "furniture/img/";
+    public static final String UPLOAD_PREFIX = "upload";
+    public static final String UPLOAD_SUFFIX = "tmp";
 
     public GCPFileUploader(
             Storage storage,
@@ -48,13 +55,34 @@ public class GCPFileUploader {
     }
 
     public String uploadVideo(final RawFileData fileData) {
-        validateFileExists(fileData);
-        validateFileDuration(fileData.getContent());
-        return sendVideoToStorage(fileData);
+        File tempFile = null;
+
+        try (InputStream inputStream = fileData.getContent()) {
+            tempFile = File.createTempFile(UPLOAD_PREFIX, UPLOAD_SUFFIX);
+
+            try (FileOutputStream out = new FileOutputStream(tempFile)) {
+                IOUtils.copy(inputStream, out);
+            }
+
+            try (InputStream durationCheckStream = new FileInputStream(tempFile);
+                 InputStream uploadStream = new FileInputStream(tempFile)) {
+
+                validateFileExists(fileData);
+                validateFileDuration(durationCheckStream);
+
+                return sendVideoToStorage(fileData, uploadStream);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (tempFile != null && tempFile.exists()) {
+                tempFile.delete();
+            }
+        }
     }
 
-    private String sendVideoToStorage(final RawFileData fileData) {
-        try (final InputStream inputStream = fileData.getContent()) {
+    private String sendVideoToStorage(final RawFileData fileData, InputStream inputStream) {
+        try {
             String fileName = fileData.getStoreFileName();
             byte[] fileBytes = inputStream.readAllBytes();
             int numChunks = (int) Math.ceil((double) fileBytes.length / CHUNK_SIZE);
@@ -64,13 +92,17 @@ public class GCPFileUploader {
             fileMemoryLoad(numChunks, fileBytes, futures);
             fileUpload(fileData, fileName, futures);
 
-            return String.format("%s/%s/%s", "https://storage.googleapis.com", bucket, fileName);
+            return String.format("%s/%s/%s%s", STORAGE_URL, bucket, SPACE_URI, fileName);
         } catch (IOException e) {
-            throw new RuntimeException("파일 업로드에 실패했습니다.");
+            throw new RuntimeException(UPLOAD_FAIL_MESSAGE);
         }
     }
 
-    private static void fileMemoryLoad(int numChunks, byte[] fileBytes, List<CompletableFuture<byte[]>> futures) {
+    private static void fileMemoryLoad(
+            int numChunks,
+            byte[] fileBytes,
+            List<CompletableFuture<byte[]>> futures
+    ) {
         for (int chunkIdx = START_IDX; chunkIdx < numChunks; chunkIdx++) {
             final int start = chunkIdx * CHUNK_SIZE;
             final int end = Math.min(start + CHUNK_SIZE, fileBytes.length);
@@ -86,8 +118,12 @@ public class GCPFileUploader {
                 .join();
     }
 
-    private void fileUpload(RawFileData fileData, String fileName, List<CompletableFuture<byte[]>> futures) throws IOException {
-        BlobInfo blobInfo = BlobInfo.newBuilder(bucket, fileName)
+    private void fileUpload(
+            RawFileData fileData,
+            String fileName,
+            List<CompletableFuture<byte[]>> futures
+    ) throws IOException {
+        BlobInfo blobInfo = BlobInfo.newBuilder(bucket, SPACE_URI + fileName)
                 .setContentType(fileData.getContentType())
                 .build();
 
@@ -113,14 +149,14 @@ public class GCPFileUploader {
         try (final InputStream inputStream = fileData.getContent()) {
             String fileName = fileData.getStoreFileName();
 
-            BlobInfo blobInfo = BlobInfo.newBuilder(bucket, fileName)
+            BlobInfo blobInfo = BlobInfo.newBuilder(bucket, FURNITURE_URI + fileName)
                     .setContentType(fileData.getContentType())
                     .build();
+            storage.create(blobInfo, inputStream);
 
-            return storage.create(blobInfo, inputStream)
-                    .getMediaLink();
+            return String.format("%s/%s/%s%s", STORAGE_URL, bucket, FURNITURE_URI, fileName);
         } catch (IOException e) {
-            throw new RuntimeException("파일 업로드에 실패했습니다.");
+            throw new RuntimeException(UPLOAD_FAIL_MESSAGE);
         }
     }
 
@@ -146,14 +182,15 @@ public class GCPFileUploader {
         }
     }
 
-    private static boolean isNotInRange(double videoDuration) {
-        return videoDuration >= MAX || videoDuration <= MIN;
-    }
-
-    private static double getVideoDuration(InputStream videoStream) throws ImageProcessingException, IOException, MetadataException {
+    private static double getVideoDuration(InputStream videoStream)
+            throws ImageProcessingException, IOException, MetadataException {
         Metadata metadata = null;
         metadata = ImageMetadataReader.readMetadata(videoStream);
         Directory directory = metadata.getFirstDirectoryOfType(Mp4Directory.class);
         return Math.floor(directory.getDouble(Mp4Directory.TAG_DURATION_SECONDS));
+    }
+
+    private static boolean isNotInRange(double videoDuration) {
+        return videoDuration >= MAX || videoDuration <= MIN;
     }
 }

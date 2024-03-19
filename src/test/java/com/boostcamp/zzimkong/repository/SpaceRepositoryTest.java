@@ -26,7 +26,7 @@ class SpaceRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        dummyUser = new User("dummy");
+        dummyUser = User.dummyUser();
         spaceUploadFile = new SpaceUploadFile(dummyUser, "storeName", "uploadName");
 
         userRepository.save(dummyUser);

@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,6 +24,9 @@ public class SpaceModelResult extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_space_model_result_user"), nullable = false)
     private User user;
+
+    @Column(name = "message_id", nullable = false)
+    private Long messageId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_code", nullable = false, columnDefinition = "VARCHAR(45)")
@@ -38,30 +44,66 @@ public class SpaceModelResult extends BaseEntity {
     @Column(name = "status_pushed", nullable = true)
     private Boolean statusPushed;
 
-    public SpaceModelResult(
-            User user,
-            StatusCode statusCode,
-            String statusMessage,
-            String storeFileUrl,
-            String uploadFileName,
-            Boolean statusPushed
+    @Column(name = "thumbnail_file_url", length = 255, nullable = true)
+    private String thumbnailFileUrl;
+
+    @Column(name = "rating", nullable = false, columnDefinition = "SMALLINT")
+    @Setter
+    private int rating;
+
+    @Column(name = "shared", nullable = false)
+    @Setter
+    @Getter
+    private boolean shared;
+
+    @Column(name = "deleted", nullable = false)
+    @Setter
+    private boolean deleted;
+
+    @Column(name = "learned_date", nullable = true)
+    private LocalDateTime learnedDate;
+
+    @Column(name = "finished_date", nullable = true)
+    private LocalDateTime finishedDate;
+
+    public SpaceModelResult(User user,
+                            Long messageId,
+                            StatusCode statusCode,
+                            String statusMessage,
+                            String uploadFileName,
+                            boolean statusPushed,
+                            String storeFileUrl,
+                            String thumbnailFileUrl,
+                            int rating,
+                            boolean shared,
+                            boolean deleted
     ) {
         this.user = user;
+        this.messageId = messageId;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
         this.storeFileUrl = storeFileUrl;
         this.uploadFileName = uploadFileName;
         this.statusPushed = statusPushed;
+        this.thumbnailFileUrl = thumbnailFileUrl;
+        this.rating = rating;
+        this.shared = shared;
+        this.deleted = deleted;
     }
 
-    public static SpaceModelResult of(User user, String uploadFileName) {
+    public static SpaceModelResult of(User user, Long messageId, String uploadFileName) {
         return new SpaceModelResult(
                 user,
+                messageId,
                 StatusCode.PROCESSING,
                 null,
-                null,
                 uploadFileName,
-                false
+                false,
+                null,
+                null,
+                2,
+                false,
+                true
         );
     }
 

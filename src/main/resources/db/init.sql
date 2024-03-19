@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS furniture_model_result;
 DROP TABLE IF EXISTS furniture_upload_file;
 DROP TABLE IF EXISTS space_upload_file;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS message;
 
 DROP TABLE IF EXISTS BATCH_STEP_EXECUTION_SEQ;
 DROP TABLE IF EXISTS BATCH_JOB_EXECUTION_SEQ;
@@ -16,7 +17,11 @@ DROP TABLE IF EXISTS BATCH_JOB_INSTANCE;
 
 CREATE TABLE users (
        `user_id` BIGINT AUTO_INCREMENT,
+       `provider` VARCHAR(255) NOT NULL,
+       `oauth_id` VARCHAR(255) NOT NULL,
        `name` VARCHAR(255) NOT NULL,
+       `email` VARCHAR(255) NOT NULL,
+       `photo_url` VARCHAR(255) NOT NULL,
        PRIMARY KEY (`user_id`)
 );
 
@@ -47,13 +52,20 @@ CREATE TABLE space_upload_file (
 CREATE TABLE space_model_result (
        `model_result_id` BIGINT AUTO_INCREMENT,
        `user_id` bigint NOT NULL,
+       `message_id` bigint NOT NULL,
        `status_code` VARCHAR(45) NOT NULL,
-       `status_message` VARCHAR(255) DEFAULT NULL,
+       `status_message` VARCHAR(5000) DEFAULT NULL,
        `store_file_url` VARCHAR(255) DEFAULT NULL,
        `upload_file_name` VARCHAR(255) NOT NULL,
        `status_pushed` bit(1) NOT NULL,
+       `thumbnail_file_url` VARCHAR(255) DEFAULT NULL,
+       `rating` smallint NOT NULL,
+       `shared` bit NOT NULL,
+       `deleted` bit NOT NULL,
        `created_date` datetime(6) NOT NULL,
        `last_modified_date` datetime(6) NOT NULL,
+       `learned_date` datetime(6) DEFAULT NULL,
+       `finished_date` datetime(6) DEFAULT NULL,
        PRIMARY KEY (`model_result_id`),
        FOREIGN KEY (`user_id`)
            REFERENCES `users` (`user_id`)
@@ -62,16 +74,33 @@ CREATE TABLE space_model_result (
 CREATE TABLE furniture_model_result (
         `model_result_id` BIGINT AUTO_INCREMENT,
         `user_id` bigint NOT NULL,
+        `message_id` bigint NOT NULL,
         `status_code` VARCHAR(45) NOT NULL,
         `status_message` VARCHAR(255) DEFAULT NULL,
         `store_file_url` VARCHAR(255) DEFAULT NULL,
         `upload_file_name` VARCHAR(255) NOT NULL,
         `status_pushed` bit(1) NOT NULL,
+        `thumbnail_file_url` VARCHAR(255) DEFAULT NULL,
+        `rating` smallint NOT NULL,
+        `shared` bit NOT NULL,
+        `deleted` bit NOT NULL,
         `created_date` datetime(6) NOT NULL,
         `last_modified_date` datetime(6) NOT NULL,
+        `learned_date` datetime(6) DEFAULT NULL,
+        `finished_date` datetime(6) DEFAULT NULL,
         PRIMARY KEY (`model_result_id`),
         FOREIGN KEY (`user_id`)
             REFERENCES `users` (`user_id`)
+);
+
+CREATE TABLE message (
+        `message_id` BIGINT AUTO_INCREMENT,
+        `object_type` BOOLEAN NOT NULL,
+        `model` VARCHAR(45) NOT NULL,
+        `store_file_url` VARCHAR(255) NOT NULL,
+        `created_date` datetime(6) NOT NULL,
+        `last_modified_date` datetime(6) NOT NULL,
+        PRIMARY KEY (`message_id`)
 );
 
 CREATE TABLE BATCH_STEP_EXECUTION_SEQ (ID BIGINT NOT NULL);
@@ -154,7 +183,7 @@ CREATE TABLE BATCH_STEP_EXECUTION_CONTEXT  (
 ) ;
 
 INSERT INTO users
-VALUES (1, 'sangbeom');
+VALUES (1, 'google', '116615750550017788067', 'test-조창희', 'sy589610@gmail.com', 'https://lh3.googleusercontent.com/a/ACg8ocJlnoYCOuxJdzI2eMjw493r1dqRMNVZf8K6JcB9q869IMU=s96-c');
 
 INSERT INTO space_model_result
 VALUES (1, 1, 'PROCESSING', 'PROCESSING', null, 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
