@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS furniture_model_result;
 DROP TABLE IF EXISTS furniture_upload_file;
 DROP TABLE IF EXISTS space_upload_file;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS message;
 
 CREATE TABLE users (
        `user_id` BIGINT AUTO_INCREMENT,
@@ -41,8 +42,9 @@ CREATE TABLE space_upload_file (
 CREATE TABLE space_model_result (
        `model_result_id` BIGINT AUTO_INCREMENT,
        `user_id` bigint NOT NULL,
+       `message_id` bigint NOT NULL,
        `status_code` VARCHAR(45) NOT NULL,
-       `status_message` VARCHAR(255) DEFAULT NULL,
+       `status_message` VARCHAR(5000) DEFAULT NULL,
        `status_pushed` bit NOT NULL,
        `store_file_url` VARCHAR(255) DEFAULT NULL,
        `thumbnail_file_url` VARCHAR(255) DEFAULT NULL,
@@ -51,6 +53,8 @@ CREATE TABLE space_model_result (
        `deleted` bit NOT NULL,
        `created_date` datetime(6) NOT NULL,
        `last_modified_date` datetime(6) NOT NULL,
+       `learned_date` datetime(6) DEFAULT NULL,
+       `finished_date` datetime(6) DEFAULT NULL,
        PRIMARY KEY (`model_result_id`),
        FOREIGN KEY (`user_id`)
            REFERENCES `users` (`user_id`)
@@ -59,6 +63,7 @@ CREATE TABLE space_model_result (
 CREATE TABLE furniture_model_result (
         `model_result_id` BIGINT AUTO_INCREMENT,
         `user_id` bigint NOT NULL,
+        `message_id` bigint NOT NULL,
         `status_code` VARCHAR(45) NOT NULL,
         `status_message` VARCHAR(255) DEFAULT NULL,
         `status_pushed` bit NOT NULL,
@@ -69,9 +74,21 @@ CREATE TABLE furniture_model_result (
         `deleted` bit NOT NULL,
         `created_date` datetime(6) NOT NULL,
         `last_modified_date` datetime(6) NOT NULL,
+        `learned_date` datetime(6) DEFAULT NULL,
+        `finished_date` datetime(6) DEFAULT NULL,
         PRIMARY KEY (`model_result_id`),
         FOREIGN KEY (`user_id`)
             REFERENCES `users` (`user_id`)
+);
+
+CREATE TABLE message (
+        `message_id` BIGINT AUTO_INCREMENT,
+        `object_type` BOOLEAN NOT NULL,
+        `model` VARCHAR(45) NOT NULL,
+        `store_file_url` VARCHAR(255) NOT NULL,
+        `created_date` datetime(6) NOT NULL,
+        `last_modified_date` datetime(6) NOT NULL,
+        PRIMARY KEY (`message_id`)
 );
 
 INSERT INTO users

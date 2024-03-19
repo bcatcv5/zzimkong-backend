@@ -9,12 +9,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 
 @Entity(name = "FurnitureModelResult")
 @Getter
 @Table(name = "furniture_model_result")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FurnitureModelResult extends BaseEntity {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_result_id")
     Long id;
@@ -22,6 +25,9 @@ public class FurnitureModelResult extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_furniture_model_result_user"), nullable = false)
     private User user;
+
+    @Column(name = "message_id", nullable = false)
+    private Long messageId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_code", nullable = false, columnDefinition = "VARCHAR(45)")
@@ -52,18 +58,25 @@ public class FurnitureModelResult extends BaseEntity {
     @Setter
     private boolean deleted;
 
+    @Column(name = "learned_date", nullable = true)
+    private LocalDateTime learnedDate;
+
+    @Column(name = "finished_date", nullable = true)
+    private LocalDateTime finishedDate;
 
     public FurnitureModelResult(User user,
-                            StatusCode statusCode,
-                            String statusMessage,
-                            boolean statusPushed,
-                            String storeFileUrl,
-                            String thumbnailFileUrl,
-                            int rating,
-                            boolean shared,
-                            boolean deleted
+                                Long messageId,
+                                StatusCode statusCode,
+                                String statusMessage,
+                                boolean statusPushed,
+                                String storeFileUrl,
+                                String thumbnailFileUrl,
+                                int rating,
+                                boolean shared,
+                                boolean deleted
     ) {
         this.user = user;
+        this.messageId = messageId;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
         this.statusPushed = statusPushed;
@@ -74,9 +87,10 @@ public class FurnitureModelResult extends BaseEntity {
         this.deleted = deleted;
     }
 
-    public static FurnitureModelResult from(User user) {
+    public static FurnitureModelResult of(User user, Long message_id) {
         return new FurnitureModelResult(
                 user,
+                message_id,
                 StatusCode.PROCESSING,
                 null,
                 false,

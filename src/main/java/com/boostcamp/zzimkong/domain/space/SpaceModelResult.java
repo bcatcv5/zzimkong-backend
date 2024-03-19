@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Table(name = "space_model_result")
@@ -22,6 +24,9 @@ public class SpaceModelResult extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_space_model_result_user"), nullable = false)
     private User user;
+
+    @Column(name = "message_id", nullable = false)
+    private Long messageId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_code", nullable = false, columnDefinition = "VARCHAR(45)")
@@ -52,8 +57,14 @@ public class SpaceModelResult extends BaseEntity {
     @Setter
     private boolean deleted;
 
+    @Column(name = "learned_date", nullable = true)
+    private LocalDateTime learnedDate;
+
+    @Column(name = "finished_date", nullable = true)
+    private LocalDateTime finishedDate;
 
     public SpaceModelResult(User user,
+                            Long messageId,
                             StatusCode statusCode,
                             String statusMessage,
                             boolean statusPushed,
@@ -64,6 +75,7 @@ public class SpaceModelResult extends BaseEntity {
                             boolean deleted
     ) {
         this.user = user;
+        this.messageId = messageId;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
         this.statusPushed = statusPushed;
@@ -74,9 +86,10 @@ public class SpaceModelResult extends BaseEntity {
         this.deleted = deleted;
     }
 
-    public static SpaceModelResult from(User user) {
+    public static SpaceModelResult of(User user, Long messageId) {
         return new SpaceModelResult(
                 user,
+                messageId,
                 StatusCode.PROCESSING,
                 null,
                 false,

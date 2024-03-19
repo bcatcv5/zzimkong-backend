@@ -33,11 +33,15 @@ CREATE TABLE users (
 CREATE TABLE space_model_result (
     `model_result_id` BIGINT NOT NULL AUTO_INCREMENT,
     `user_id` bigint NOT NULL,
+    `message_id` bigint NOT NULL,
     `status_code` VARCHAR(45) NOT NULL,
     `status_message` VARCHAR(255) DEFAULT NULL,
     `store_file_url` VARCHAR(255) DEFAULT NULL,
+    `thumbnail_file_url` VARCHAR(255) DEFAULT NULL,
     `created_date` DATETIME NOT NULL,
     `last_modified_date` DATETIME NOT NULL,
+    `learned_date` DATETIME DEFAULT NULL,
+    `finished_date` DATETIME DEFAULT NULL,
     PRIMARY KEY (`model_result_id`),
     FOREIGN KEY (`user_id`)
         REFERENCES `users` (`user_id`)
@@ -46,11 +50,15 @@ CREATE TABLE space_model_result (
 CREATE TABLE furniture_model_result (
     `furniture_result_id` BIGINT NOT NULL AUTO_INCREMENT,
     `user_id` bigint NOT NULL,
+    `message_id` bigint NOT NULL,
     `status_code` VARCHAR(45) NOT NULL,
     `status_message` VARCHAR(255) DEFAULT NULL,
     `store_file_url` VARCHAR(255) DEFAULT NULL,
+    `thumbnail_file_url` VARCHAR(255) DEFAULT NULL,
     `created_date` DATETIME NOT NULL,
     `last_modified_date` DATETIME NOT NULL,
+    `learned_date` DATETIME DEFAULT NULL,
+    `finished_date` DATETIME DEFAULT NULL,
     PRIMARY KEY (`furniture_result_id`),
     FOREIGN KEY (`user_id`)
         REFERENCES `users` (`user_id`)
