@@ -186,31 +186,32 @@ INSERT INTO users
 VALUES (1, 'google', '116615750550017788067', 'test-조창희', 'sy589610@gmail.com', 'https://lh3.googleusercontent.com/a/ACg8ocJlnoYCOuxJdzI2eMjw493r1dqRMNVZf8K6JcB9q869IMU=s96-c');
 
 INSERT INTO space_model_result
-VALUES (1, 1, 'PROCESSING', 'PROCESSING', null, 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
+VALUES (1, 1, 1, 'FINISH', '기다려주셔서 감사합니다. 재구성 결과를 확인해보세요 :)', null, 'apple', 0, 'space/thumbnail/18fd041970.png', 2, false, false, '2024-03-13 00:00:00', '2024-03-13 00:00:00', '2024-03-13 00:00:00', '2024-03-13 00:00:00');
 
 INSERT INTO space_model_result
-VALUES (2, 1, 'PROCESSING', 'PROCESSING', null, 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
+VALUES (2, 1, 1, 'FINISH', '기다려주셔서 감사합니다. 재구성 결과를 확인해보세요 :)', null, 'apple', 0, 'space/thumbnail/18fd041970.png', 2, false, false, '2024-03-13 00:00:00', '2024-03-13 00:00:00', '2024-03-13 00:00:00', '2024-03-13 00:00:00');
 
 INSERT INTO space_model_result
-VALUES (3, 1, 'ERROR', 'PROCESSING', '123', 'pair',0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
+VALUES (3, 1, 1, 'PROCESSING', '기다려주셔서 감사합니다. 재구성 결과를 확인해보세요 :)', null, 'apple', 0, 'space/thumbnail/18fd041970.png', 2, false, false, '2024-03-13 00:00:00', '2024-03-13 00:00:00', '2024-03-13 00:00:00', '2024-03-13 00:00:00');
 
 INSERT INTO space_model_result
-VALUES (4, 1, 'FINISH', 'PROCESSING', '123', 'pair', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
+VALUES (4, 1, 1, 'ERROR', '재구성 실패 ㅜㅠ', null, 'apple', 0, 'space/thumbnail/18fd041970.png', 2, false, false, '2024-03-13 00:00:00', '2024-03-13 00:00:00', '2024-03-13 00:00:00', '2024-03-13 00:00:00');
 
-INSERT INTO furniture_model_result
-VALUES (1, 1, 'PROCESSING', 'PROCESSING', null, 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
 
-INSERT INTO furniture_model_result
-VALUES (2, 1, 'PROCESSING', 'PROCESSING', null, 'apple', 1, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
-
-INSERT INTO furniture_model_result
-VALUES (3, 1, 'PROCESSING', 'PROCESSING', '123', 'apple', 1, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
-
-INSERT INTO furniture_model_result
-VALUES (4, 1, 'FINISH', 'PROCESSING', '123', 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
-
-INSERT INTO furniture_model_result
-VALUES (5, 1, 'ERROR', 'PROCESSING', '123', 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
-
-INSERT INTO furniture_model_result
-VALUES (6, 1, 'FINISH', 'PROCESSING', '123', 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
+-- INSERT INTO furniture_model_result
+-- VALUES (1, 1, 'PROCESSING', 'PROCESSING', null, 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
+--
+-- INSERT INTO furniture_model_result
+-- VALUES (2, 1, 'PROCESSING', 'PROCESSING', null, 'apple', 1, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
+--
+-- INSERT INTO furniture_model_result
+-- VALUES (3, 1, 'PROCESSING', 'PROCESSING', '123', 'apple', 1, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
+--
+-- INSERT INTO furniture_model_result
+-- VALUES (4, 1, 'FINISH', 'PROCESSING', '123', 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
+--
+-- INSERT INTO furniture_model_result
+-- VALUES (5, 1, 'ERROR', 'PROCESSING', '123', 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');
+--
+-- INSERT INTO furniture_model_result
+-- VALUES (6, 1, 'FINISH', 'PROCESSING', '123', 'apple', 0, '2024-03-13 00:00:00', '2024-03-13 00:00:00');

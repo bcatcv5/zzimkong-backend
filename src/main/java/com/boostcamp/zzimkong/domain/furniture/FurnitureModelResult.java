@@ -107,8 +107,4 @@ public class FurnitureModelResult extends BaseEntity {
                 true
         );
     }
-
-    public String getEmail() {
-        return "hsb990917@gmail.com";
-    }
 }

@@ -66,7 +66,7 @@ public class SpaceBatchConfig {
             for (SpaceModelResult item : items) {
                 System.out.println("Found: " + item);
                 emailService.sendMail(
-                        item.getEmail(),
+                        item.getUser().getEmail(),
                         item.getUploadFileName(),
                         item.getStatusMessage(),
                         item.getStatusCode().toString()

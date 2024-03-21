@@ -44,7 +44,10 @@ public class FileService {
                 videoUploadRequestDto.getUploadFileName()
         );
 
-        spaceResultRepository.save(SpaceModelResult.of(findUser, videoUploadRequestDto.getMessageId()));
+        spaceResultRepository.save(
+                SpaceModelResult.of(findUser, videoUploadRequestDto.getMessageId(),
+                        videoUploadRequestDto.getUploadFileName())
+        );
         SpaceUploadFile saveSpaceUploadFile = spaceRepository.save(spaceUploadFile);
         return VideoFileSaveResponse.from(saveSpaceUploadFile);
     }
@@ -63,7 +66,9 @@ public class FileService {
         IntStream.range(START, furnitureUploadFiles.size())
                         .forEach(idx -> {
                             furnitureRepository.save(furnitureUploadFiles.get(idx));
-                            furnitureResultRepository.save(FurnitureModelResult.of(findUser, imageUploadRequestDto.getMessageId()));
+                            furnitureResultRepository.save(
+                                    FurnitureModelResult.of(findUser, imageUploadRequestDto.getMessageId(), imageUploadRequestDto.getUploadFileName())
+                            );
                         });
 
         List<ImageFileSaveResponse> imageFileSaveResponses = furnitureUploadFiles.stream()
