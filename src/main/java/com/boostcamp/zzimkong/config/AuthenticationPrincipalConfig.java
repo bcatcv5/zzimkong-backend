@@ -1,7 +1,7 @@
 package com.boostcamp.zzimkong.config;
 
-import com.boostcamp.zzimkong.controller.auth.SignInterceptor;
 import com.boostcamp.zzimkong.controller.auth.AuthenticationPrincipalArgumentResolver;
+import com.boostcamp.zzimkong.controller.auth.SignInterceptor;
 import com.boostcamp.zzimkong.support.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

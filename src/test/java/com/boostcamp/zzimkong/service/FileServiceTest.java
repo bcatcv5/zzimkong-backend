@@ -1,6 +1,5 @@
 package com.boostcamp.zzimkong.service;
 
-import com.boostcamp.zzimkong.controller.dto.VideoUploadRequest;
 import com.boostcamp.zzimkong.domain.User;
 import com.boostcamp.zzimkong.domain.space.SpaceUploadFile;
 import com.boostcamp.zzimkong.exception.NoSuchMemberException;

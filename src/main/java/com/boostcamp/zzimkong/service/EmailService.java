@@ -1,6 +1,5 @@
 package com.boostcamp.zzimkong.service;
 
-import com.boostcamp.zzimkong.domain.StatusCode;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 
-import static com.boostcamp.zzimkong.domain.StatusCode.*;
+import static com.boostcamp.zzimkong.domain.StatusCode.ERROR;
 import static com.boostcamp.zzimkong.utils.ZzimkongConstant.EMAIL_FAIL_MESSAGE;
 import static com.boostcamp.zzimkong.utils.ZzimkongConstant.EMAIL_SUCCESS_MESSAGE;
 
