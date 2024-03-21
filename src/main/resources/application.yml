@@ -2,7 +2,7 @@ spring:
   profiles:
     active: local
   jpa:
-    show_sql: true
+    show_sql: false
     properties:
       hibernate:
         format_sql: true
@@ -57,21 +57,22 @@ oauth:
       redirect_uri: ${GOOGLE_OAUTH_REDIRECT_URL}
       grant_type: ${GOOGLE_OAUTH_GRANT_TYPE}
 
-logging:
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
-        resource:
-          transaction: DEBUG
-      springframework:
-        transaction:
-          interceptor: TRACE
-        orm:
-          jpa:
-            JpaTransactionManager: DEBUG
+#TODO: 로깅 전략 수립
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
+#        resource:
+#          transaction: DEBUG
+#      springframework:
+#        transaction:
+#          interceptor: TRACE
+#        orm:
+#          jpa:
+#            JpaTransactionManager: DEBUG
 server:
   port: 3000

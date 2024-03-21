@@ -1,5 +1,6 @@
 package com.boostcamp.zzimkong.service;
 
+import com.boostcamp.zzimkong.domain.StatusCode;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -10,27 +11,33 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 
+import static com.boostcamp.zzimkong.domain.StatusCode.*;
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.EMAIL_FAIL_MESSAGE;
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.EMAIL_SUCCESS_MESSAGE;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmailService {
 
+    private static final String FROM = "찜콩";
+    private static final String FROM_EMAIL = "bcatcv5@gmail.com";
+
     private final JavaMailSender javaMailSender;
 
     public void sendMail(String email, String fileName, String statusMessage, String statusCode) {
         try {
-            // TODO: status code도 받아서 error면 fail message, finish면 성공 메시지
             MimeMessage message = null;
-            if (statusCode.equals("ERROR")) {
+            if (statusCode.equals(ERROR.toString())) {
                 message = createFailMessage(email, fileName, statusMessage);
             } else {
                 message = createSuccessMessage(email, fileName);
             }
             javaMailSender.send(message);
 
-            log.info("Success");
+            log.info(EMAIL_SUCCESS_MESSAGE);
         } catch (MessagingException | UnsupportedEncodingException e) {
-            log.info("fail");
+            log.info(EMAIL_FAIL_MESSAGE);
         }
     }
 
@@ -64,7 +71,7 @@ public class EmailService {
         msgg.append("</div>");
 
         message.setText(msgg.toString(), "utf-8", "html");
-        message.setFrom(new InternetAddress("bcatcv5@gmail.com", "찜콩"));
+        message.setFrom(new InternetAddress(FROM_EMAIL, FROM));
 
         return message;
     }
@@ -100,7 +107,7 @@ public class EmailService {
         msgg.append("</div>");
 
         message.setText(msgg.toString(), "utf-8", "html");
-        message.setFrom(new InternetAddress("bcatcv5@gmail.com", "찜콩"));
+        message.setFrom(new InternetAddress(FROM_EMAIL, FROM));
 
         return message;
     }
