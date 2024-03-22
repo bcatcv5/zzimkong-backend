@@ -4,7 +4,6 @@ import com.boostcamp.zzimkong.service.dto.VideoUploadRequestDto;
 import com.boostcamp.zzimkong.utils.validator.VideoExistsConstraint;
 import com.boostcamp.zzimkong.utils.validator.VideoExtensionContraint;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

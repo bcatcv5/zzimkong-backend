@@ -9,4 +9,6 @@ public abstract class ZzimkongConstant {
 
     // Exception Message
     public static final String UPLOAD_FAIL_MESSAGE = "파일 업로드에 실패했습니다.";
+    public static final String EMAIL_FAIL_MESSAGE = "이메일 전송 실패";
+    public static final String EMAIL_SUCCESS_MESSAGE = "이메일 전송 성공";
 }

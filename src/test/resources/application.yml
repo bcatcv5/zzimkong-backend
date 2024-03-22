@@ -12,6 +12,11 @@ spring:
     gcp:
       storage:
         bucket: test
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: test
+    password: test
   redis:
     data:
       host: localhost

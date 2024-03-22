@@ -35,11 +35,14 @@ public class SpaceModelResult extends BaseEntity {
     @Column(name = "status_message", length = 255, nullable = true)
     private String statusMessage;
 
-    @Column(name = "status_pushed", nullable = false)
-    private boolean statusPushed;
-
     @Column(name = "store_file_url", length = 255, nullable = true)
     private String storeFileUrl;
+
+    @Column(name = "upload_file_name", length = 255, nullable = false)
+    private String uploadFileName;
+
+    @Column(name = "status_pushed", nullable = true)
+    private Boolean statusPushed;
 
     @Column(name = "thumbnail_file_url", length = 255, nullable = true)
     private String thumbnailFileUrl;
@@ -67,6 +70,7 @@ public class SpaceModelResult extends BaseEntity {
                             Long messageId,
                             StatusCode statusCode,
                             String statusMessage,
+                            String uploadFileName,
                             boolean statusPushed,
                             String storeFileUrl,
                             String thumbnailFileUrl,
@@ -78,20 +82,22 @@ public class SpaceModelResult extends BaseEntity {
         this.messageId = messageId;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
-        this.statusPushed = statusPushed;
         this.storeFileUrl = storeFileUrl;
+        this.uploadFileName = uploadFileName;
+        this.statusPushed = statusPushed;
         this.thumbnailFileUrl = thumbnailFileUrl;
         this.rating = rating;
         this.shared = shared;
         this.deleted = deleted;
     }
 
-    public static SpaceModelResult of(User user, Long messageId) {
+    public static SpaceModelResult of(User user, Long messageId, String uploadFileName) {
         return new SpaceModelResult(
                 user,
                 messageId,
                 StatusCode.PROCESSING,
                 null,
+                uploadFileName,
                 false,
                 null,
                 null,

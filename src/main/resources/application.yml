@@ -27,6 +27,17 @@ spring:
     init:
       mode: always
       data-locations: classpath:db/init.sql
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   redis:
     data:
       host: ${SPRING_REDIS_HOST}
@@ -46,21 +57,22 @@ oauth:
       redirect_uri: ${GOOGLE_OAUTH_REDIRECT_URL}
       grant_type: ${GOOGLE_OAUTH_GRANT_TYPE}
 
-logging:
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
-        resource:
-          transaction: DEBUG
-      springframework:
-        transaction:
-          interceptor: TRACE
-        orm:
-          jpa:
-            JpaTransactionManager: DEBUG
+#TODO: 로깅 전략 수립
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
+#        resource:
+#          transaction: DEBUG
+#      springframework:
+#        transaction:
+#          interceptor: TRACE
+#        orm:
+#          jpa:
+#            JpaTransactionManager: DEBUG
 server:
   port: 3000

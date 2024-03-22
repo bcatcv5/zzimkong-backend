@@ -36,11 +36,14 @@ public class FurnitureModelResult extends BaseEntity {
     @Column(name = "status_message", length = 255, nullable = true)
     private String statusMessage;
 
-    @Column(name = "status_pushed", nullable = false)
-    private boolean statusPushed;
-
     @Column(name = "store_file_url", length = 255, nullable = true)
     private String storeFileUrl;
+
+    @Column(name = "upload_file_name", length = 255, nullable = false)
+    private String uploadFileName;
+
+    @Column(name = "status_pushed", nullable = true)
+    private Boolean statusPushed;
 
     @Column(name = "thumbnail_file_url", length = 255, nullable = true)
     private String thumbnailFileUrl;
@@ -70,6 +73,7 @@ public class FurnitureModelResult extends BaseEntity {
                                 String statusMessage,
                                 boolean statusPushed,
                                 String storeFileUrl,
+                                String uploadFileName,
                                 String thumbnailFileUrl,
                                 int rating,
                                 boolean shared,
@@ -79,15 +83,16 @@ public class FurnitureModelResult extends BaseEntity {
         this.messageId = messageId;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
-        this.statusPushed = statusPushed;
         this.storeFileUrl = storeFileUrl;
         this.thumbnailFileUrl = thumbnailFileUrl;
         this.rating = rating;
         this.shared = shared;
         this.deleted = deleted;
+        this.uploadFileName = uploadFileName;
+        this.statusPushed = statusPushed;
     }
 
-    public static FurnitureModelResult of(User user, Long message_id) {
+    public static FurnitureModelResult of(User user, Long message_id, String uploadFileName) {
         return new FurnitureModelResult(
                 user,
                 message_id,
@@ -95,6 +100,7 @@ public class FurnitureModelResult extends BaseEntity {
                 null,
                 false,
                 null,
+                uploadFileName,
                 null,
                 2,
                 false,

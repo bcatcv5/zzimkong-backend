@@ -2,9 +2,9 @@ package com.boostcamp.zzimkong.support.oauth;
 
 import com.boostcamp.zzimkong.domain.User;
 import com.boostcamp.zzimkong.exception.OauthHttpException;
-import com.boostcamp.zzimkong.support.oauth.dto.GoogleLoginUserInfo;
 import com.boostcamp.zzimkong.support.oauth.dto.GoogleLoginRequest;
 import com.boostcamp.zzimkong.support.oauth.dto.GoogleLoginResponse;
+import com.boostcamp.zzimkong.support.oauth.dto.GoogleLoginUserInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
