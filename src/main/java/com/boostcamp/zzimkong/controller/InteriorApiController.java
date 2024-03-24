@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +25,7 @@ import java.util.List;
 public class InteriorApiController {
     private final InteriorService interiorService;
 
-    @PostMapping(value = "/items/space")
+    @GetMapping(value = "/items/space")
     public ResponseEntity<List<ObjectListResponse>> space(
             @AuthenticationPrincipal SignUserRequest signUserRequest
     ) {
@@ -32,7 +34,7 @@ public class InteriorApiController {
         );
     }
 
-    @PostMapping(value = "/items/furniture")
+    @GetMapping(value = "/items/furniture")
     public ResponseEntity<List<ObjectListResponse>> furniture(
             @AuthenticationPrincipal SignUserRequest signUserRequest
     ) {
@@ -41,7 +43,7 @@ public class InteriorApiController {
         );
     }
 
-    @PostMapping(value = "/items/gallery/space")
+    @GetMapping(value = "/items/gallery/space")
     public ResponseEntity<List<GalleryObjectListResponse>> gallerySpace(
     ) {
         return ResponseEntity.ok(
@@ -49,7 +51,7 @@ public class InteriorApiController {
         );
     }
 
-    @PostMapping(value = "/items/gallery/furniture")
+    @GetMapping(value = "/items/gallery/furniture")
     public ResponseEntity<List<GalleryObjectListResponse>> galleryFurniture(
     ) {
         return ResponseEntity.ok(
@@ -82,7 +84,7 @@ public class InteriorApiController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(value = "/delete")
+    @DeleteMapping(value = "/delete")
     public ResponseEntity<Void> delete(
             @ModelAttribute InteriorObjectEditRequestParam interiorObjectEditRequestParam,
             @AuthenticationPrincipal SignUserRequest signUserRequest
