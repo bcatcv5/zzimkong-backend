@@ -10,6 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ObjectListResponse{
     private Long id;;
+    private String uploadFileName;
     private StatusCode statusCode;
     private String statusMessage;
     private String storeFileUrl;

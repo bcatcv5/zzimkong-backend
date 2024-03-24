@@ -11,6 +11,7 @@ import lombok.ToString;
 public class GalleryObjectListResponse {
     private Long id;;
     private String userName;
+    private String uploadFileName;
     private StatusCode statusCode;
     private String statusMessage;
     private String storeFileUrl;

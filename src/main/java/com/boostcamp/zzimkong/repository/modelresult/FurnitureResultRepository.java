@@ -26,6 +26,7 @@ public interface FurnitureResultRepository extends JpaRepository<FurnitureModelR
             select
             new com.boostcamp.zzimkong.controller.dto.interior.ObjectListResponse(
                 smr.id,
+                smr.uploadFileName,
                 smr.statusCode,
                 smr.statusMessage,
                 smr.storeFileUrl,
@@ -45,6 +46,7 @@ public interface FurnitureResultRepository extends JpaRepository<FurnitureModelR
             new com.boostcamp.zzimkong.controller.dto.interior.GalleryObjectListResponse(
                 smr.id,
                 user.name,
+                smr.uploadFileName,
                 smr.statusCode,
                 smr.statusMessage,
                 smr.storeFileUrl,
