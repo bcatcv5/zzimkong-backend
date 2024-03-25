@@ -43,6 +43,9 @@ spring:
       host: ${SPRING_REDIS_HOST}
       port: ${SPRING_REDIS_PORT}
       password: ${SPRING_REDIS_PASSWORD}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 jwt:
   token:
