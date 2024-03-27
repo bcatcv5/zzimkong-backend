@@ -15,6 +15,7 @@ import com.boostcamp.zzimkong.support.file.GCPFileUploader;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @RequestMapping("/api")
 public class FileUploadApiController {
 
+    @Value("${spring.cloud.gcp.storage.bucket}") String bucket;
     private final GCPFileUploader gcpFileUploader;
     private final UuidHolder uuidHolder;
     private final FileService fileService;
@@ -48,11 +50,11 @@ public class FileUploadApiController {
                 videoUploadRequest.getFile(),
                 uuidHolder
         );
-        String videoUploadUrl = gcpFileUploader.uploadVideo(rawFileData);
-        Long messageId = messageConsumer.sendSpaceMessage(videoUploadUrl, SPACE_TYPE);
+        String videoUploadUrl = FileConverter.createFileStoreUrl(rawFileData.getStoreFileName(), bucket);
+        gcpFileUploader.handleUploadProcess(rawFileData);
 
         VideoFileSaveResponse videoFileSaveResponse =
-                fileService.save(videoUploadRequest.toServiceDto(videoUploadUrl, messageId), signUserRequest.getId());
+                fileService.save(videoUploadRequest.toServiceDto(videoUploadUrl), signUserRequest.getId());
         return ResponseEntity
                 .created(URI.create("/api/video/" + videoFileSaveResponse.getId()))
                 .body(videoFileSaveResponse);
