@@ -67,4 +67,6 @@ public interface SpaceResultRepository extends JpaRepository<SpaceModelResult, L
     @Modifying(clearAutomatically = true)
     @Query("update SpaceModelResult f set f.statusPushed = true where f.statusPushed = :statusPushed and f.statusCode != 'PROCESSING'")
     int updateStatusPushed(@Param("statusPushed") Boolean statusPushed);
+
+    Optional<SpaceModelResult> findByStoreFileUrl(String storeFileUrl);
 }

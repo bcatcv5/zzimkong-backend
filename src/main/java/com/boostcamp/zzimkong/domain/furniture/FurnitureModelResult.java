@@ -104,7 +104,7 @@ public class FurnitureModelResult extends BaseEntity {
                 null,
                 2,
                 false,
-                true
+                false
         );
     }
 }

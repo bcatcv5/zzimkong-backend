@@ -10,7 +10,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.SPACE_URI;
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.STORAGE_URL;
+
 public class FileConverter {
+
     public static RawFileData convertVideoFile(final MultipartFile file, final UuidHolder uuidHolder) {
         if (file == null || file.isEmpty()) {
             return null;
@@ -54,5 +58,9 @@ public class FileConverter {
                             }
                         }
                 ).collect(Collectors.toList());
+    }
+
+    public static String createFileStoreUrl(String fileName, String bucket) {
+        return String.format("%s/%s/%s%s", STORAGE_URL, bucket, SPACE_URI, fileName);
     }
 }
