@@ -45,9 +45,11 @@ public class FileService {
         );
 
         spaceResultRepository.save(
-                SpaceModelResult.of(findUser, videoUploadRequestDto.getMessageId(),
-                        videoUploadRequestDto.getUploadFileName())
-        );
+                SpaceModelResult.of(
+                        findUser,
+                        videoUploadRequestDto.getUploadFileName(),
+                        videoUploadRequestDto.getStoreFileUrl()
+                ));
         SpaceUploadFile saveSpaceUploadFile = spaceRepository.save(spaceUploadFile);
         return VideoFileSaveResponse.from(saveSpaceUploadFile);
     }

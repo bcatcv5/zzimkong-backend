@@ -22,11 +22,10 @@ public class VideoUploadRequest {
     @NotBlank
     private String title;
 
-    public VideoUploadRequestDto toServiceDto(String videoUploadUrl, Long messageId) {
+    public VideoUploadRequestDto toServiceDto(String videoUploadUrl) {
         return new VideoUploadRequestDto(
                 title,
-                videoUploadUrl,
-                messageId
+                videoUploadUrl
         );
     }
 }

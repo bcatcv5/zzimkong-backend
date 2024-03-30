@@ -11,6 +11,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import static com.boostcamp.zzimkong.utils.ZzimkongConstant.*;
+
 @Entity
 @Getter
 @Table(name = "space_model_result")
@@ -25,7 +27,7 @@ public class SpaceModelResult extends BaseEntity {
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_space_model_result_user"), nullable = false)
     private User user;
 
-    @Column(name = "message_id", nullable = false)
+    @Column(name = "message_id", nullable = true)
     private Long messageId;
 
     @Enumerated(EnumType.STRING)
@@ -67,7 +69,6 @@ public class SpaceModelResult extends BaseEntity {
     private LocalDateTime finishedDate;
 
     public SpaceModelResult(User user,
-                            Long messageId,
                             StatusCode statusCode,
                             String statusMessage,
                             String uploadFileName,
@@ -79,7 +80,6 @@ public class SpaceModelResult extends BaseEntity {
                             boolean deleted
     ) {
         this.user = user;
-        this.messageId = messageId;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
         this.storeFileUrl = storeFileUrl;
@@ -91,19 +91,26 @@ public class SpaceModelResult extends BaseEntity {
         this.deleted = deleted;
     }
 
-    public static SpaceModelResult of(User user, Long messageId, String uploadFileName) {
+    public static SpaceModelResult of(User user, String uploadFileName, String storeFileUrl) {
         return new SpaceModelResult(
                 user,
-                messageId,
                 StatusCode.PROCESSING,
                 null,
                 uploadFileName,
                 false,
-                null,
+                getStoreFileName(storeFileUrl),
                 null,
                 2,
                 false,
-                true
+                false
         );
+    }
+
+    public void changeId(Long id) {
+        this.messageId = id;
+    }
+
+    private static String getStoreFileName(String storeFileUrl) {
+        return SPACE_RESULT_URL + storeFileUrl.split(REGEX)[LAST_IDX] + SUFFIX;
     }
 }

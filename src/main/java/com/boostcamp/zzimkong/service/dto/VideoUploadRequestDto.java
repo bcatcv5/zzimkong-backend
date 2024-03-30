@@ -9,5 +9,4 @@ public class VideoUploadRequestDto {
 
     private String uploadFileName;
     private String storeFileUrl;
-    private Long messageId;
 }

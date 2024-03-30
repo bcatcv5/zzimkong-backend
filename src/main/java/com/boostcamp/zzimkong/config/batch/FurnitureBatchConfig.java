@@ -42,7 +42,7 @@ public class FurnitureBatchConfig {
     @Bean
     public Step finishFurnitureStep(JobRepository jobRepository) {
         return new StepBuilder("finishFurnitureStep", jobRepository)
-                .<FurnitureModelResult, FurnitureModelResult> chunk(500, transactionManager)
+                .<FurnitureModelResult, FurnitureModelResult> chunk(100, transactionManager)
                 .reader(readerFurniture())
                 .writer(writerFurniture())
                 .build();
@@ -55,7 +55,7 @@ public class FurnitureBatchConfig {
         reader.setMethodName("findByStatusPushed");
         reader.setArguments(Collections.singletonList(false));
         reader.setSort(Collections.singletonMap("id", Sort.Direction.ASC));
-        reader.setPageSize(500);
+        reader.setPageSize(100);
         return reader;
     }
 
